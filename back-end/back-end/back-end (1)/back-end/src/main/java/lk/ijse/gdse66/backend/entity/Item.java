@@ -1,0 +1,30 @@
+package lk.ijse.gdse66.backend.entity;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jdk.jfr.Percentage;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.aspectj.apache.bcel.classfile.Code;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Item {
+
+    @Id
+    private String  itemCode;
+    private String  itemDesc;
+    private String itemPicture;
+    private String Category;
+    private Integer size;
+    private String supplierCode;
+    private String supplierName;
+    private Double unitPriceSale;
+    private Double unitPriceBuy;
+    private Double expectedProfit;
+    private Double profitMargin ;
+    private String status ;
+}

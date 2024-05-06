@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #orderForm {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Management System</h1>
+    <div id="orderForm">
+        <h2>New Order</h2>
+        <label for="itemCode">Item Code:</label>
+        <input type="text" id="itemCode" required><br>
+
+        <label for="orderNo">Order Number:</label>
+        <input type="text" id="orderNo" required><br>
+
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName"><br>
+
+        <label for="itemDesc">Item Description:</label>
+        <input type="text" id="itemDesc"><br>
+
+        <label for="itemSize">Item Size:</label>
+        <input type="number" id="itemSize"><br>
+
+        <label for="unitPrice">Unit Price:</label>
+        <input type="number" id="unitPrice" step="0.01"><br>
+
+        <label for="itemQty">Item Quantity:</label>
+        <input type="number" id="itemQty"><br>
+
+        <label for="purchaseDate">Purchase Date:</label>
+        <input type="date" id="purchaseDate"><br>
+
+        <label for="paymentMethod">Payment Method:</label>
+        <select id="paymentMethod">
+            <option value="cash">Cash</option>
+            <option value="card">Card</option>
+        </select><br>
+
+        <label for="cashierName">Cashier Name:</label>
+        <input type="text" id="cashierName"><br>
+
+        <button onclick="submitOrder()">Submit Order</button>
+    </div>
+
+    <script>
+        function submitOrder() {
+            // Retrieve values from form inputs
+            const itemCode = document.getElementById('itemCode').value;
+            const orderNo = document.getElementById('orderNo').value;
+            const customerName = document.getElementById('customerName').value;
+            const itemDesc = document.getElementById('itemDesc').value;
+            const itemSize = document.getElementById('itemSize').value;
+            const unitPrice = document.getElementById('unitPrice').value;
+            const itemQty = document.getElementById('itemQty').value;
+            const purchaseDate = document.getElementById('purchaseDate').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const cashierName = document.getElementById('cashierName').value;
+
+            // Construct order object
+            const order = {
+                itemCode,
+                orderNo,
+                customerName,
+                itemDesc,
+                itemSize,
+                unitPrice,
+                itemQty,
+                purchaseDate,
+                paymentMethod,
+                cashierName
+            };
+
+            // Display order details (for demonstration)
+            console.log('New Order:', order);
+
+            // You can perform further actions here like sending the data to a server or storing it locally
+            // For a complete system, you would implement backend logic to handle storing and processing orders
+        }
+    </script>
+</body>
+</html>
