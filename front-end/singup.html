@@ -81,15 +81,45 @@
 
             <label for="role">Role:</label>
             <select id="role" required>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
+                <option value="user">USER</option>
+                <option value="admin">ADMIN</option>
             </select><br>
 
-            <button type="submit">Sign Up</button>
+            <button type="button" onclick="saveUser()">Sign Up</button>
         </form>
         <p id="signupMessage"></p>
     </div>
 
-    <script src="script.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        
+        function saveUser() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const role = document.getElementById('role').value;
+
+            const user = {
+                email: email,
+                password: password,
+                accessRole: role.toUpperCase() 
+            };
+
+           
+            $.ajax({
+                url: 'http://localhost:8080/user/save',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(user),
+                success: function(response) {
+                    document.getElementById('signupForm').reset();
+                    alert('User information saved successfully!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Failed to save user information. Please try again.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

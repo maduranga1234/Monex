@@ -133,7 +133,8 @@
     let inventoryItems = [];
 
     function saveInventory() {
-        // Function to save inventory item
+        
+
         const inventoryItem = {
             itemCode: document.getElementById('itemCode').value,
             itemDesc: document.getElementById('itemDesc').value,
@@ -147,15 +148,26 @@
             expectedProfit: document.getElementById('expectedProfit').value,
             profitMargin: document.getElementById('profitMargin').value,
             status: document.getElementById('status').value
+
+
+
         };
 
-        inventoryItems.push(inventoryItem);
+        $.ajax({
+                url: 'http://localhost:8080/item/save',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(inventoryItem),
+                success: function(response) {
+                    document.getElementById('inventoryForm').reset();
+                    alert('Item information saved successfully!');
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Failed to save Item information. Please try again.');
+                }
+            });
 
-        document.getElementById('inventoryForm').reset();
-
-        updateInventoryTable();
-
-        alert('Inventory item saved successfully!');
     }
 
     function updateInventoryTable() {
