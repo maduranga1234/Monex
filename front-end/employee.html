@@ -173,17 +173,17 @@
         const employee = {
             employeeCode: document.getElementById('employeeCode').value,
             employeeName: document.getElementById('employeeName').value,
-            profilePic: document.getElementById('profilePic').value,
+            employeeProfilePic: document.getElementById('profilePic').value,
             gender: document.getElementById('gender').value,
             status: document.getElementById('status').value,
             designation: document.getElementById('designation').value,
             accessRole: document.getElementById('accessRole').value,
             dob: document.getElementById('dob').value,
-            dateOfJoin: document.getElementById('dateOfJoin').value,
-            attachedBranch: document.getElementById('attachedBranch').value,
+            dateOfJoinDate: document.getElementById('dateOfJoin').value,
+            attachedbranch: document.getElementById('attachedBranch').value,
             address: `${document.getElementById('addressLine1').value}, ${document.getElementById('addressLine2').value}, ${document.getElementById('addressLine3').value}, ${document.getElementById('addressLine4').value}, ${document.getElementById('addressLine5').value}`,
             contactNo: document.getElementById('contactNo').value,
-            email: document.getElementById('email').value,
+            emailToContact: document.getElementById('email').value,
             emergencyContact: document.getElementById('emergencyContact').value,
             informInCaseOfEmergency: document.getElementById('informInCaseOfEmergency').value
         };
@@ -234,15 +234,58 @@
     }
 
     function updateEmployee() {
+        const employee = {
+            employeeCode: document.getElementById('employeeCode').value,
+            employeeName: document.getElementById('employeeName').value,
+            employeeProfilePic: document.getElementById('profilePic').value,
+            gender: document.getElementById('gender').value,
+            status: document.getElementById('status').value,
+            designation: document.getElementById('designation').value,
+            accessRole: document.getElementById('accessRole').value,
+            dob: document.getElementById('dob').value,
+            dateOfJoinDate: document.getElementById('dateOfJoin').value,
+            attachedbranch: document.getElementById('attachedBranch').value,
+            address: `${document.getElementById('addressLine1').value}, ${document.getElementById('addressLine2').value}, ${document.getElementById('addressLine3').value}, ${document.getElementById('addressLine4').value}, ${document.getElementById('addressLine5').value}`,
+            contactNo: document.getElementById('contactNo').value,
+            emailToContact: document.getElementById('email').value,
+            emergencyContact: document.getElementById('emergencyContact').value,
+            informInCaseOfEmergency: document.getElementById('informInCaseOfEmergency').value
+        };$.ajax({
+        url: `http://localhost:8080/employee/update`, 
+        type: 'PATCH', 
+        contentType: 'application/json',
+        data: JSON.stringify(employee),
+        success: function(response) {
+            alert('Employee information updated successfully!');
+            
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to update Employee information. Please try again.');
+        }
+    });
       
-        alert('Employee information updated successfully!');
-        toggleEmployeeFormContainer();
+       
     }
 
     function deleteEmployee() {
     
-        alert('Employee information deleted successfully!');
-        toggleEmployeeFormContainer();
+        const code = document.getElementById('employeeCode').value;
+   
+   if (confirm('Are you sure you want to delete this Item?')) {
+       $.ajax({
+           url: `http://localhost:8080/employee/${code}`, 
+           type: 'DELETE', 
+           success: function(response) {
+               alert('Employee information deleted successfully!');
+               
+           },
+           error: function(xhr, status, error) {
+               console.error(error);
+               alert('Failed to delete Employee information. Please try again.');
+           }
+       });
+      }
     }
 
     function editEmployee() {

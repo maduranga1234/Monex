@@ -32,11 +32,7 @@ public class Employee {
     private Date dob;
     private Date dateOfJoinDate;
     private  String attachedbranch;
-    private String addressLine01;
-    private String addressLine02 ;
-    private String  addressLine03;
-    private String  addressLine04;
-    private String  addressLine05;
+    private String address;
     private String contactNo;
     private String emailToContact;
     private String informInCaseOfEmergency;

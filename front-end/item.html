@@ -149,8 +149,6 @@
             profitMargin: document.getElementById('profitMargin').value,
             status: document.getElementById('status').value
 
-
-
         };
 
         $.ajax({
@@ -167,8 +165,62 @@
                     alert('Failed to save Item information. Please try again.');
                 }
             });
+        }
 
+            function updateInventory() {
+
+                const inventoryItem = {
+            itemCode: document.getElementById('itemCode').value,
+            itemDesc: document.getElementById('itemDesc').value,
+            itemPicture: document.getElementById('itemPicture').value,
+            category: document.getElementById('category').value,
+            size: document.getElementById('size').value,
+            supplierCode: document.getElementById('supplierCode').value,
+            supplierName: document.getElementById('supplierName').value,
+            unitPriceSale: document.getElementById('unitPriceSale').value,
+            unitPriceBuy: document.getElementById('unitPriceBuy').value,
+            expectedProfit: document.getElementById('expectedProfit').value,
+            profitMargin: document.getElementById('profitMargin').value,
+            status: document.getElementById('status').value
+        };
+
+        $.ajax({
+        url: `http://localhost:8080/item/update`, 
+        type: 'PATCH', 
+        contentType: 'application/json',
+        data: JSON.stringify(inventoryItem),
+        success: function(response) {
+            alert('Item information updated successfully!');
+            
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to update Item information. Please try again.');
+        }
+    });
+         
     }
+
+    function deleteInventory() {
+        const code = document.getElementById('itemCode').value;
+   
+    if (confirm('Are you sure you want to delete this Item?')) {
+        $.ajax({
+            url: `http://localhost:8080/item/${code}`, 
+            type: 'DELETE', 
+            success: function(response) {
+                alert('Item information deleted successfully!');
+                
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('Failed to delete Item information. Please try again.');
+            }
+        });
+    }
+    }
+
+    
 
     function updateInventoryTable() {
         // Function to update inventory item table
@@ -196,17 +248,7 @@
         });
     }
 
-    function updateInventory() {
-        // Function to update inventory item
-        alert('Inventory item updated successfully!');
-        toggleInventoryFormContainer();
-    }
-
-    function deleteInventory() {
-        // Function to delete inventory item
-        alert('Inventory item deleted successfully!');
-        toggleInventoryFormContainer();
-    }
+   
 
     function editInventory() {
         // Function to edit inventory item
