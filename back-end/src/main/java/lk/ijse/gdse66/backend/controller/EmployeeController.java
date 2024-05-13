@@ -45,7 +45,7 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/getAllCustomers")
+    @GetMapping("/getAllEmployees")
     public List<EmployeeDTO> getAllEmployee(){
         return employeeService.getAllEmployee();
     }

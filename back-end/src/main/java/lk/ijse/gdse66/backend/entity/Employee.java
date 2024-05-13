@@ -1,9 +1,6 @@
 package lk.ijse.gdse66.backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lk.ijse.gdse66.backend.util.Gender;
 import lk.ijse.gdse66.backend.util.Role;
 import lombok.AllArgsConstructor;
@@ -22,6 +19,7 @@ public class Employee {
     @Id
     private String employeeCode;
     private String employeeName;
+    @Column(columnDefinition = "LONGTEXT")
     private String  employeeProfilePic;
     @Enumerated(EnumType.STRING)
     private Gender gender;

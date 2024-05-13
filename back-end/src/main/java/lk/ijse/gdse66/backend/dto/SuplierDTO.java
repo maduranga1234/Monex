@@ -14,12 +14,7 @@ public class SuplierDTO {
     private String supplierCode ;
     private String supplierName;
     private Category category ;
-    private String addressLine01;
-    private String addressLine02 ;
-    private String addressLine03 ;
-    private String addressLine04 ;
-    private String addressLine05 ;
-    private String addressLine06;
+    private String address;
     private String mobileNumber ;
     private String landlineNumber ;
     private String email;

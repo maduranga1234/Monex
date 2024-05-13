@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.backend.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jdk.jfr.Percentage;
@@ -17,14 +18,15 @@ public class Item {
     @Id
     private String  itemCode;
     private String  itemDesc;
+    @Column(columnDefinition = "LONGTEXT")
     private String itemPicture;
-    private String Category;
+    private String category;
     private Integer size;
     private String supplierCode;
     private String supplierName;
     private Double unitPriceSale;
     private Double unitPriceBuy;
     private Double expectedProfit;
-    private Double profitMargin ;
-    private String status ;
+    private Double profitMargin;
+    private String status;
 }

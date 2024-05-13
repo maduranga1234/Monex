@@ -31,9 +31,55 @@
         .search-container {
             margin-top: 20px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+          <li><a href="dashBoard.html">Home</a></li>
+          <li><a href="customer.html">Customer</a></li>
+          <li><a href="employee.html">Employee</a></li>
+          <li><a href="item.html">Item</a></li>
+          <li><a href="suplier.html">Supplier</a></li>
+          <li><a href="sale.html">Order</a></li>
+        </ul>
+      </nav>
 
 <div class="container mt-5">
     <h2 class="mb-4">Employee Information Form</h2>
@@ -52,7 +98,9 @@
                 </div>
                 <div class="mb-3">
                     <label for="profilePic" class="form-label">Profile Picture (Base64)</label>
-                    <input type="text" class="form-control" id="profilePic" placeholder="Enter Profile Picture (Base64)" required>
+                    <input type="hidden" class="form-control" id="profilePic" placeholder="Enter Profile Picture (Base64)" required>
+                    <img id="EmployeePicturePreview" src="" alt="Employee Picture Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                    <input type="file" class="form-control" id="profilePic1" accept="image/*" onchange="handleImageUpload(event)" required>
                 </div>
                 <div class="mb-3">
                     <label for="gender" class="form-label">Gender</label>
@@ -142,6 +190,7 @@
                 <tr>
                     <th>Employee Code</th>
                     <th>Employee Name</th>
+                    <th>Profile picture</th>
                     <th>Gender</th>
                     <th>Status</th>
                     <th>Designation</th>
@@ -156,7 +205,7 @@
                     <th>Inform in Case of Emergency</th>
                 </tr>
             </thead>
-            <tbody id="employeeTableBody">
+            <tbody id="employeeTableBody" onclick="tableClick(event)">
             
             </tbody>
         </table>
@@ -197,6 +246,7 @@
                     // document.getElementById('employeeForm').reset();
                     alert('Employee information saved successfully!');
                     console.log(employee);
+                    updateEmployeeTable();
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -206,32 +256,51 @@
     }
 
     function updateEmployeeTable() {
-       
-        const tableBody = document.getElementById('employeeTableBody');
-        tableBody.innerHTML = '';
+    const tableBody = document.getElementById('employeeTableBody');
+    tableBody.innerHTML = ''; 
 
-        employees.forEach(employee => {
-            const row = `
-                <tr>
-                    <td>${employee.employeeCode}</td>
-                    <td>${employee.employeeName}</td>
-                    <td>${employee.gender}</td>
-                    <td>${employee.status}</td>
-                    <td>${employee.designation}</td>
-                    <td>${employee.accessRole}</td>
-                    <td>${employee.dob}</td>
-                    <td>${employee.dateOfJoin}</td>
-                    <td>${employee.attachedBranch}</td>
-                    <td>${employee.address}</td>
-                    <td>${employee.contactNo}</td>
-                    <td>${employee.email}</td>
-                    <td>${employee.emergencyContact}</td>
-                    <td>${employee.informInCaseOfEmergency}</td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
-        });
-    }
+    $.ajax({
+        url: 'http://localhost:8080/employee/getAllEmployees',
+        type: 'GET',
+        success: function(response) {
+            const employees = response;
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to retrieve employee information. Please try again.');
+        }
+    });
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Adjust the format as needed
+}
+ updateEmployeeTable();
 
     function updateEmployee() {
         const employee = {
@@ -257,6 +326,7 @@
         data: JSON.stringify(employee),
         success: function(response) {
             alert('Employee information updated successfully!');
+            updateEmployeeTable();
             
         },
         error: function(xhr, status, error) {
@@ -278,6 +348,7 @@
            type: 'DELETE', 
            success: function(response) {
                alert('Employee information deleted successfully!');
+               updateEmployeeTable();
                
            },
            error: function(xhr, status, error) {
@@ -287,6 +358,63 @@
        });
       }
     }
+
+
+    function tableClick(event) {
+    const row = event.target.closest('tr');
+
+    if (row) {
+        const cells = row.querySelectorAll('td');
+
+        // Retrieve the values from the clicked row's cells
+        const employeeCode = cells[0].textContent;
+        const employeeName = cells[1].textContent;
+        const profilePic = cells[2].querySelector('img').getAttribute('src'); // Get the src attribute of the img tag
+        const gender = cells[3].textContent;
+        const status = cells[4].textContent;
+        const designation = cells[5].textContent;
+        const accessRole = cells[6].textContent;
+        const dob = cells[7].textContent;
+        const dateOfJoin = cells[8].textContent;
+        const attachedBranch = cells[9].textContent;
+        const address = cells[10].textContent;
+        const contactNo = cells[11].textContent;
+        const email = cells[12].textContent;
+        const emergencyContact = cells[13].textContent;
+        const informInCaseOfEmergency = cells[14].textContent;
+
+        // Populate the form fields with the retrieved values
+        document.getElementById('employeeCode').value = employeeCode;
+        document.getElementById('employeeName').value = employeeName;
+        document.getElementById('profilePic').value = profilePic;
+        document.getElementById('EmployeePicturePreview').src = profilePic; 
+        document.getElementById('EmployeePicturePreview').style.display = 'block'; 
+
+        document.getElementById('gender').value = gender;
+        document.getElementById('status').value = status;
+        document.getElementById('designation').value = designation;
+        document.getElementById('accessRole').value = accessRole;
+        document.getElementById('dob').value = dob;
+        document.getElementById('dateOfJoin').value = dateOfJoin;
+        document.getElementById('attachedBranch').value = attachedBranch;
+
+        // Split the address string and populate address fields
+        const addressParts = address.split(', ');
+        document.getElementById('addressLine1').value = addressParts[0] || '';
+        document.getElementById('addressLine2').value = addressParts[1] || '';
+        document.getElementById('addressLine3').value = addressParts[2] || '';
+        document.getElementById('addressLine4').value = addressParts[3] || '';
+        document.getElementById('addressLine5').value = addressParts[4] || '';
+
+        document.getElementById('contactNo').value = contactNo;
+        document.getElementById('email').value = email;
+        document.getElementById('emergencyContact').value = emergencyContact;
+        document.getElementById('informInCaseOfEmergency').value = informInCaseOfEmergency;
+
+        // Display the employee form container
+        document.getElementById('employeeFormContainer').style.display = 'block';
+    }
+}
 
     function editEmployee() {
         
@@ -298,6 +426,28 @@
         const formContainer = document.getElementById('employeeFormContainer');
         formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
     }
+    function handleImageUpload(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const base64Image = e.target.result;
+            document.getElementById('profilePic').value = base64Image;
+            document.getElementById('EmployeePicturePreview').src = base64Image;
+            document.getElementById('EmployeePicturePreview').style.display = 'block';
+
+
+            // <label for="profilePic" class="form-label">Profile Picture (Base64)</label>
+            //         <input type="hidden" class="form-control" id="profilePic" placeholder="Enter Profile Picture (Base64)" required>
+            //         <img id="EmployeePicturePreview" src="" alt="Employee Picture Preview" style="max-width: 100%; max-height: 200px; display: none;">
+            //         <input type="file" class="form-control" id="profilePic1" accept="image/*" onchange="handleImageUpload(event)" required>
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
 </script>
 
 </body>

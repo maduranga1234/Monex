@@ -31,9 +31,67 @@
         .search-container {
             margin-top: 20px;
         }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        nav {
+  background-color: #333;
+  padding: 10px;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  padding: 5px;
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
     </style>
 </head>
 <body>
+    <nav>
+        <ul>
+          <li><a href="dashBoard.html">Home</a></li>
+          <li><a href="customer.html">Customer</a></li>
+          <li><a href="employee.html">Employee</a></li>
+          <li><a href="item.html">Item</a></li>
+          <li><a href="suplier.html">Supplier</a></li>
+          <li><a href="sale.html">Order</a></li>
+        </ul>
+      </nav>
 
 <div class="container mt-5">
     <h2 class="mb-4">Inventory Management</h2>
@@ -52,8 +110,11 @@
                 </div>
                 <div class="mb-3">
                     <label for="itemPicture" class="form-label">Item Picture (Base64)</label>
-                    <input type="text" class="form-control" id="itemPicture" placeholder="Enter Item Picture (Base64)" required>
+                    <input type="hidden" class="form-control" id="itemPicture" name="itemPicture" required>
+                    <img id="itemPicturePreview" src="" alt="Item Picture Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                    <input type="file" class="form-control" id="itemPicture1" accept="image/*" onchange="handleImageUpload(event)" required>
                 </div>
+                
                 <div class="mb-3">
                     <label for="category" class="form-label">Category</label>
                     <input type="text" class="form-control" id="category" placeholder="Enter Category" required>
@@ -107,7 +168,7 @@
                 <tr>
                     <th>Item Code</th>
                     <th>Item Description</th>
-                    <th>Item Picture</th>
+                    <th> Picture</th>
                     <th>Category</th>
                     <th>Size</th>
                     <th>Supplier Code</th>
@@ -119,8 +180,21 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody id="inventoryTableBody">
-                <!-- Table rows for displaying inventory information -->
+            <tbody id="inventoryTableBody" onclick="tableOnClick(event)">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><image></image></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -159,6 +233,7 @@
                 success: function(response) {
                     document.getElementById('inventoryForm').reset();
                     alert('Item information saved successfully!');
+                    updateInventoryTable();
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -191,11 +266,13 @@
         data: JSON.stringify(inventoryItem),
         success: function(response) {
             alert('Item information updated successfully!');
+            updateInventoryTable();
             
         },
         error: function(xhr, status, error) {
             console.error(error);
             alert('Failed to update Item information. Please try again.');
+            console.log(inventoryItem)
         }
     });
          
@@ -211,6 +288,7 @@
             success: function(response) {
                 alert('Item information deleted successfully!');
                 
+                
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -223,43 +301,128 @@
     
 
     function updateInventoryTable() {
-        // Function to update inventory item table
-        const tableBody = document.getElementById('inventoryTableBody');
-        tableBody.innerHTML = '';
+    $.ajax({
+        url: 'http://localhost:8080/item/getAllItem', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            const tableBody = document.getElementById('inventoryTableBody');
+            tableBody.innerHTML = '';  
 
-        inventoryItems.forEach(item => {
-            const row = `
-                <tr>
-                    <td>${item.itemCode}</td>
-                    <td>${item.itemDesc}</td>
-                    <td>${item.itemPicture}</td>
-                    <td>${item.category}</td>
-                    <td>${item.size}</td>
-                    <td>${item.supplierCode}</td>
-                    <td>${item.supplierName}</td>
-                    <td>${item.unitPriceSale}</td>
-                    <td>${item.unitPriceBuy}</td>
-                    <td>${item.expectedProfit}</td>
-                    <td>${item.profitMargin}</td>
-                    <td>${item.status}</td>
-                </tr>
-            `;
-            tableBody.innerHTML += row;
-        });
+            response.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item.itemCode}</td>
+                        <td>${item.itemDesc}</td>
+                        <td><img src="${item.itemPicture}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${item.category}</td>
+                        <td>${item.size}</td>
+                        <td>${item.supplierCode}</td>
+                        <td>${item.supplierName}</td>
+                        <td>${item.unitPriceSale}</td>
+                        <td>${item.unitPriceBuy}</td>
+                        <td>${item.expectedProfit}</td>
+                        <td>${item.profitMargin}</td>
+                        <td>${item.status}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to fetch inventory data. Please try again.');
+        }
+    });
+}
+
+
+
+function tableOnClick(event) {
+    const row = event.target.closest('tr'); 
+
+    if (row) {
+        const cells = row.querySelectorAll('td'); 
+
+       
+        if (cells.length >= 12) {
+         
+            const itemCode = cells[0].textContent;
+            const itemDesc = cells[1].textContent;
+            const itemPicture = cells[2].querySelector('img').getAttribute('src');
+            const category = cells[3].textContent;
+            const size = cells[4].textContent;
+            const supplierCode = cells[5].textContent;
+            const supplierName = cells[6].textContent;
+            const unitPriceSale = cells[7].textContent;
+            const unitPriceBuy = cells[8].textContent;
+            const expectedProfit = cells[9].textContent;
+            const profitMargin = cells[10].textContent;
+            const status = cells[11].textContent;
+       
+            
+            document.getElementById('itemCode').value = itemCode;
+            document.getElementById('itemDesc').value = itemDesc;
+
+            document.getElementById('itemPicture').value = itemPicture;
+            document.getElementById('itemPicturePreview').src = itemPicture; 
+            document.getElementById('itemPicturePreview').style.display = 'block'; 
+
+            // document.getElementById('itemPicture').value = itemPicture;
+            // document.getElementById('itemPicturePreview').src = itemPicture;
+            // document.getElementById('itemPicturePreview').style.display = 'block';
+
+            document.getElementById('category').value = category;
+            document.getElementById('size').value = size;
+            document.getElementById('supplierCode').value = supplierCode;
+            document.getElementById('supplierName').value = supplierName;
+            document.getElementById('unitPriceSale').value = unitPriceSale;
+            document.getElementById('unitPriceBuy').value = unitPriceBuy;
+            document.getElementById('expectedProfit').value = expectedProfit;
+            document.getElementById('profitMargin').value = profitMargin;
+            document.getElementById('status').value = status;
+
+            
+            document.getElementById('inventoryFormContainer').style.display = 'block';
+            
+        } else {
+            console.error('Invalid row data. Expected at least 12 cells.'); // Log an error if row data is incomplete
+        }
     }
+}
 
-   
+
+
+updateInventoryTable();   
 
     function editInventory() {
-        // Function to edit inventory item
+       
         toggleInventoryFormContainer();
     }
 
     function toggleInventoryFormContainer() {
-        // Function to toggle visibility of inventory form container
+        
         const formContainer = document.getElementById('inventoryFormContainer');
         formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
     }
+    function handleImageUpload(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const base64Image = e.target.result;
+            document.getElementById('itemPicture').value = base64Image;
+            document.getElementById('itemPicturePreview').src = base64Image;
+            document.getElementById('itemPicturePreview').style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+
+
 </script>
 
 </body>
