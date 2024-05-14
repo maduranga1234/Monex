@@ -36,16 +36,21 @@
             border-collapse: collapse;
         }
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #da4703;
             padding: 8px;
             text-align: left;
         }
         th {
-            background-color: #f2f2f2;
+            background-color: #03a7da;
         }
-        nav {
-  background-color: #333;
-  padding: 10px;
+nav {
+    background-color: #333;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    margin-top: -58px;
+    z-index: 100;
+
 }
 
 nav ul {
@@ -67,7 +72,56 @@ nav ul li a {
 nav ul li a:hover {
   background-color: #555;
 }
-    </style>
+.search-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: -35px;
+    margin-right: 18px; 
+}
+
+.search-container form {
+    display: flex;
+}
+
+.search-container input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 233px;
+    height: 29px;
+}
+
+.search-container button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 10px;
+    cursor: pointer;
+    height: 29px;
+}
+
+.search-container button:hover {
+    background-color: #0056b3;
+}
+#title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 5px;
+        margin-top: 50px; 
+        margin-left:48px;
+    }
+
+
+  </style>
 </head>
 <body>
     <nav>
@@ -79,10 +133,17 @@ nav ul li a:hover {
           <li><a href="suplier.html">Supplier</a></li>
           <li><a href="sale.html">Order</a></li>
         </ul>
+
+        <div class="search-container">
+            <form id="searchForm">
+              <input type="text" class="form-control" id="searchInput" placeholder="Search Employees">
+              <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
+            </form>
+          </div>
       </nav>
 
 <div class="container mt-5">
-    <h2 class="mb-4">Employee Information Form</h2>
+    <h2 class="mb-4" id="title">Employee Information Form</h2>
     <form id="employeeForm" onsubmit="event.preventDefault(); saveEmployee();">
         <div class="mb-3">
             <button type="button" class="btn btn-primary" onclick="editEmployee()">Edit Employee</button>
@@ -184,7 +245,7 @@ nav ul li a:hover {
     </form>
     
     <div class="mt-5">
-        <h2>Employee Information Table</h2>
+        
         <table class="table">
             <thead>
                 <tr>
@@ -247,6 +308,8 @@ nav ul li a:hover {
                     alert('Employee information saved successfully!');
                     console.log(employee);
                     updateEmployeeTable();
+                    document.getElementById('employeeForm').reset();
+                    employeeNextId();
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -327,6 +390,9 @@ function formatDate(dateString) {
         success: function(response) {
             alert('Employee information updated successfully!');
             updateEmployeeTable();
+            document.getElementById('employeeForm').reset();
+            employeeNextId();
+
             
         },
         error: function(xhr, status, error) {
@@ -349,6 +415,9 @@ function formatDate(dateString) {
            success: function(response) {
                alert('Employee information deleted successfully!');
                updateEmployeeTable();
+               document.getElementById('employeeForm').reset();
+               employeeNextId();
+
                
            },
            error: function(xhr, status, error) {
@@ -358,6 +427,22 @@ function formatDate(dateString) {
        });
       }
     }
+
+    function employeeNextId(){
+
+$.ajax({
+   url: `http://localhost:8080/employee/nextId`, 
+   type: 'GET', 
+   success: function(response) {
+       const nextId=response;
+       document.getElementById('employeeCode').value =nextId;
+   },
+  
+});
+
+}
+
+employeeNextId();
 
 
     function tableClick(event) {
