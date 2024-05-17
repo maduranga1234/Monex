@@ -1,6 +1,7 @@
 package lk.ijse.gdse66.backend.controller;
 
 import lk.ijse.gdse66.backend.dto.CustomerDTO;
+import lk.ijse.gdse66.backend.dto.ItemDTO;
 import lk.ijse.gdse66.backend.dto.SuplierDTO;
 import lk.ijse.gdse66.backend.entity.Suplier;
 import lk.ijse.gdse66.backend.service.CustomerService;
@@ -54,6 +55,11 @@ public class SuplierController {
     @GetMapping("/nextId")
     public String nextId(){
         return suplierService.generateNextId();
+    }
+
+    @GetMapping("/search/{name}")
+    public List<SuplierDTO> searchSupplier(@PathVariable(value = "name")String name){
+        return suplierService.searchSuplier(name);
     }
 
 }

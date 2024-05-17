@@ -62,8 +62,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> searchCustomer(String name) {
-        return null;
+        List<Customer> foundCustomers = customerRepo.findByNameStartingWith(name);
+
+        if (foundCustomers.isEmpty()) {
+            throw new NotFoundException("No customers found with the name: " + name);
+        }
+
+        return foundCustomers.stream()
+                .map(customer -> mapper.map(customer, CustomerDTO.class))
+                .toList();
     }
+
 
     @Override
     public String generateNextId() {

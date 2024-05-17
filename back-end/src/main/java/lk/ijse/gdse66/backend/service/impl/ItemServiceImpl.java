@@ -86,6 +86,14 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemDTO> searchItem(String name) {
-        return null;
+        List<Item> foundItem = itemRepo.findByItemDescIsStartingWith(name);
+
+        if (foundItem.isEmpty()) {
+            throw new NotFoundException("No Item found with the name: " + name);
+        }
+
+        return foundItem.stream()
+                .map(item -> mapper.map(item, ItemDTO.class))
+                .toList();
     }
 }

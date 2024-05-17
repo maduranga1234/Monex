@@ -21,7 +21,10 @@ public class Item {
     @Column(columnDefinition = "LONGTEXT")
     private String itemPicture;
     private String category;
-    private Integer size;
+    private Integer size6;
+    private Integer size8;
+    private Integer size10;
+    private Integer size11;
     private String supplierCode;
     private String supplierName;
     private Double unitPriceSale;

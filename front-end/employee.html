@@ -136,8 +136,8 @@ nav ul li a:hover {
 
         <div class="search-container">
             <form id="searchForm">
-              <input type="text" class="form-control" id="searchInput" placeholder="Search Employees">
-              <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
+              <input type="text" class="form-control" id="searchInput" placeholder="Search Employees" oninput="search()">
+              <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
             </form>
           </div>
       </nav>
@@ -500,6 +500,116 @@ employeeNextId();
         document.getElementById('employeeFormContainer').style.display = 'block';
     }
 }
+
+
+
+
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('employeeTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/employee/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const employees = response;
+            console.log(employees);
+            
+            
+            tableBody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateEmployeeTable();
+        }
+    });
+}
+
+
+
+
+
+
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('employeeTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/employee/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const employees = response;
+            console.log(employees);
+            
+            
+            tableBody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            alert("Employee mot found!");
+            tableBody.innerHTML = '';
+
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
 
     function editEmployee() {
         

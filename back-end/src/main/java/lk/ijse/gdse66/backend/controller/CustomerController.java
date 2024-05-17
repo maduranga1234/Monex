@@ -51,5 +51,10 @@ public class CustomerController {
         return customerService.generateNextId();
     }
 
+    @GetMapping("/search/{name}")
+     public List<CustomerDTO> searchCustomer(@PathVariable(value = "name")String name){
+        return customerService.searchCustomer(name);
+    }
+
 
 }

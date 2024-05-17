@@ -137,8 +137,8 @@ nav ul li a:hover {
 
         <div class="search-container">
             <form id="searchForm">
-              <input type="text" class="form-control" id="searchInput" placeholder="Search Item">
-              <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
+              <input type="text" class="form-control" id="searchInput" placeholder="Search Item" oninput="search()">
+              <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
             </form>
           </div>
       </nav>
@@ -170,8 +170,20 @@ nav ul li a:hover {
                     <input type="text" class="form-control" id="category" placeholder="Enter Category" required>
                 </div>
                 <div class="mb-3">
-                    <label for="size" class="form-label">Size</label>
-                    <input type="number" class="form-control" id="size" placeholder="Enter Size" required>
+                    <label for="size" class="form-label">Size6</label>
+                    <input type="number" class="form-control" id="size6" value="0" min="0" required>
+                </div>
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size8</label>
+                    <input type="number" class="form-control" id="size8" value="0"min="0" required>
+                </div>
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size10</label>
+                    <input type="number" class="form-control" id="size10" value="0"min="0"  required>
+                </div>
+                <div class="mb-3">
+                    <label for="size" class="form-label">Size11</label>
+                    <input type="number" class="form-control" id="size11" value="0"min="0" required>
                 </div>
                 <div class="mb-3">
                     <label for="supplierCode" class="form-label">Supplier Code</label>
@@ -217,10 +229,13 @@ nav ul li a:hover {
             <thead>
                 <tr>
                     <th>Item Code</th>
-                    <th>Item Description</th>
+                    <th>Item Desc</th>
                     <th> Picture</th>
                     <th>Category</th>
-                    <th>Size</th>
+                    <th>Size6</th>
+                    <th>Size8</th>
+                    <th>Size10</th>
+                    <th>Size11</th>
                     <th>Supplier Code</th>
                     <th>Supplier Name</th>
                     <th>Unit Price - Sale</th>
@@ -264,7 +279,10 @@ nav ul li a:hover {
             itemDesc: document.getElementById('itemDesc').value,
             itemPicture: document.getElementById('itemPicture').value,
             category: document.getElementById('category').value,
-            size: document.getElementById('size').value,
+            size6: document.getElementById('size6').value,
+            size8: document.getElementById('size8').value,
+            size10: document.getElementById('size10').value,
+            size11: document.getElementById('size11').value,
             supplierCode: document.getElementById('supplierCode').value,
             supplierName: document.getElementById('supplierName').value,
             unitPriceSale: document.getElementById('unitPriceSale').value,
@@ -300,7 +318,10 @@ nav ul li a:hover {
             itemDesc: document.getElementById('itemDesc').value,
             itemPicture: document.getElementById('itemPicture').value,
             category: document.getElementById('category').value,
-            size: document.getElementById('size').value,
+            size6: document.getElementById('size6').value,
+            size8: document.getElementById('size8').value,
+            size10: document.getElementById('size10').value,
+            size11: document.getElementById('size11').value,
             supplierCode: document.getElementById('supplierCode').value,
             supplierName: document.getElementById('supplierName').value,
             unitPriceSale: document.getElementById('unitPriceSale').value,
@@ -371,7 +392,10 @@ nav ul li a:hover {
                         <td>${item.itemDesc}</td>
                         <td><img src="${item.itemPicture}" style="max-width: 100px; max-height: 100px;" /></td>
                         <td>${item.category}</td>
-                        <td>${item.size}</td>
+                        <td>${item.size6}</td>
+                        <td>${item.size8}</td>
+                        <td>${item.size10}</td>
+                        <td>${item.size11}</td>
                         <td>${item.supplierCode}</td>
                         <td>${item.supplierName}</td>
                         <td>${item.unitPriceSale}</td>
@@ -391,6 +415,102 @@ nav ul li a:hover {
     });
 }
 
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('inventoryTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/item/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const items = response;
+            
+            tableBody.innerHTML = '';
+
+            items.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item.itemCode}</td>
+                        <td>${item.itemDesc}</td>
+                        <td><img src="${item.itemPicture}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${item.category}</td>
+                        <td>${item.size6}</td>
+                        <td>${item.size8}</td>
+                        <td>${item.size10}</td>
+                        <td>${item.size11}</td>
+                        <td>${item.supplierCode}</td>
+                        <td>${item.supplierName}</td>
+                        <td>${item.unitPriceSale}</td>
+                        <td>${item.unitPriceBuy}</td>
+                        <td>${item.expectedProfit}</td>
+                        <td>${item.profitMargin}</td>
+                        <td>${item.status}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateInventoryTable();
+        }
+    });
+}
+
+
+
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('inventoryTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/item/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const items = response;
+            
+            tableBody.innerHTML = '';
+            
+            items.forEach(item => {
+                const row = `
+                    <tr>
+                        <td>${item.itemCode}</td>
+                        <td>${item.itemDesc}</td>
+                        <td><img src="${item.itemPicture}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${item.category}</td>
+                        <td>${item.size6}</td>
+                        <td>${item.size8}</td>
+                        <td>${item.size10}</td>
+                        <td>${item.size11}</td>
+                        <td>${item.supplierCode}</td>
+                        <td>${item.supplierName}</td>
+                        <td>${item.unitPriceSale}</td>
+                        <td>${item.unitPriceBuy}</td>
+                        <td>${item.expectedProfit}</td>
+                        <td>${item.profitMargin}</td>
+                        <td>${item.status}</td>
+                    </tr>
+                `;
+             
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert("Item not found!")
+           
+          
+            tableBody.innerHTML = '';
+        }
+    });
+}
+
+
+
+
 
 
 function tableOnClick(event) {
@@ -406,14 +526,17 @@ function tableOnClick(event) {
             const itemDesc = cells[1].textContent;
             const itemPicture = cells[2].querySelector('img').getAttribute('src');
             const category = cells[3].textContent;
-            const size = cells[4].textContent;
-            const supplierCode = cells[5].textContent;
-            const supplierName = cells[6].textContent;
-            const unitPriceSale = cells[7].textContent;
-            const unitPriceBuy = cells[8].textContent;
-            const expectedProfit = cells[9].textContent;
-            const profitMargin = cells[10].textContent;
-            const status = cells[11].textContent;
+            const size6 = cells[4].textContent;
+            const size8 = cells[5].textContent;
+            const size10 = cells[6].textContent;
+            const size11 = cells[7].textContent;
+            const supplierCode = cells[8].textContent;
+            const supplierName = cells[9].textContent;
+            const unitPriceSale = cells[10].textContent;
+            const unitPriceBuy = cells[11].textContent;
+            const expectedProfit = cells[12].textContent;
+            const profitMargin = cells[13].textContent;
+            const status = cells[14].textContent;
        
             
             document.getElementById('itemCode').value = itemCode;
@@ -428,7 +551,10 @@ function tableOnClick(event) {
             // document.getElementById('itemPicturePreview').style.display = 'block';
 
             document.getElementById('category').value = category;
-            document.getElementById('size').value = size;
+            document.getElementById('size6').value = size6;
+            document.getElementById('size8').value = size8;
+            document.getElementById('size10').value = size10;
+            document.getElementById('size11').value = size11;
             document.getElementById('supplierCode').value = supplierCode;
             document.getElementById('supplierName').value = supplierName;
             document.getElementById('unitPriceSale').value = unitPriceSale;

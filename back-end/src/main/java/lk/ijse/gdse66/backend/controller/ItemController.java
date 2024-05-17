@@ -55,4 +55,9 @@ public class ItemController {
     public String nextId(){
         return itemService.generateNextId();
     }
+
+    @GetMapping("/search/{name}")
+    public List<ItemDTO> searchItem(@PathVariable(value = "name")String name){
+        return itemService.searchItem(name);
+    }
 }

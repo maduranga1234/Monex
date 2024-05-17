@@ -1,8 +1,10 @@
 package lk.ijse.gdse66.backend.service.impl;
 
 import lk.ijse.gdse66.backend.dto.CustomerDTO;
+import lk.ijse.gdse66.backend.dto.ItemDTO;
 import lk.ijse.gdse66.backend.dto.SuplierDTO;
 import lk.ijse.gdse66.backend.entity.Customer;
+import lk.ijse.gdse66.backend.entity.Item;
 import lk.ijse.gdse66.backend.entity.Suplier;
 import lk.ijse.gdse66.backend.repositry.CustomerRepo;
 import lk.ijse.gdse66.backend.repositry.SuplierRepo;
@@ -83,5 +85,18 @@ public class SuplierServiceImpl implements SuplierService {
         id = prefix + String.format("%03d", nextNumericPart);
 
         return id;
+    }
+
+    @Override
+    public List<SuplierDTO> searchSuplier(String name) {
+        List<Suplier> foundItem = suplierRepo.findBySupplierNameStartingWith(name);
+
+        if (foundItem.isEmpty()) {
+            throw new NotFoundException("No Supplier found with the name: " + name);
+        }
+
+        return foundItem.stream()
+                .map(supplier -> mapper.map(supplier, SuplierDTO.class))
+                .toList();
     }
 }

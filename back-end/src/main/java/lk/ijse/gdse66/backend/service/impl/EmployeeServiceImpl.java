@@ -88,6 +88,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public List<EmployeeDTO> searchEmployee(String name) {
-        return null;
+        List<Employee> foundEmplyees = employeeRepo.findByEmployeeNameStartingWith(name);
+
+        if (foundEmplyees.isEmpty()) {
+            throw new NotFoundException("No Employee found with the name: " + name);
+        }
+
+        return foundEmplyees.stream()
+                .map(employee -> mapper.map(employee, EmployeeDTO.class))
+                .toList();
     }
 }

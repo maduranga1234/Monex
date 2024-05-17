@@ -1,6 +1,7 @@
 package lk.ijse.gdse66.backend.service;
 
 import lk.ijse.gdse66.backend.dto.CustomerDTO;
+import lk.ijse.gdse66.backend.dto.ItemDTO;
 import lk.ijse.gdse66.backend.dto.SuplierDTO;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface SuplierService {
     boolean deleteSupplier(String id);
     List<SuplierDTO> getAllSupplier();
     String generateNextId();
+    List<SuplierDTO> searchSuplier(String name);
 }

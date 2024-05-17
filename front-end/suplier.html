@@ -135,8 +135,8 @@ nav ul li a:hover {
 
         <div class="search-container">
             <form id="searchForm">
-              <input type="text" class="form-control" id="searchInput" placeholder="Search Sppliers">
-              <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
+              <input type="text" class="form-control" id="searchInput" placeholder="Search Sppliers" oninput="search()">
+              <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
             </form>
           </div>
       </nav>
@@ -444,6 +444,84 @@ function tableClick(event) {
       
     }
 }
+
+
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('supplierTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/supplier/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const suppliers = response;
+            console.log(suppliers);
+            
+            
+            tableBody.innerHTML = '';
+
+            suppliers.forEach(supplier => {
+                const row = `
+                    <tr>
+                        <td>${supplier.supplierCode}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.category}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.mobileNumber}</td>
+                        <td>${supplier.landlineNumber}</td>
+                        <td>${supplier.email}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateSupplierTable();
+        }
+    });
+}
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('supplierTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/supplier/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const suppliers = response;
+            console.log(suppliers);
+            
+            
+            tableBody.innerHTML = '';
+
+            suppliers.forEach(supplier => {
+                const row = `
+                    <tr>
+                        <td>${supplier.supplierCode}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.category}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.mobileNumber}</td>
+                        <td>${supplier.landlineNumber}</td>
+                        <td>${supplier.email}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          alert("Supplier not found!")
+            tableBody.innerHTML = '';
+        }
+    });
+}
+
 
 
  

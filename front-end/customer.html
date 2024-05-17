@@ -135,8 +135,8 @@ nav ul li a:hover {
         </ul>
         <div class="search-container">
             <form id="searchForm">
-              <input type="text" class="form-control" id="searchInput" placeholder="Search Customers">
-              <button type="submit" class="btn btn-primary" id="searchButton">Search</button>
+              <input type="text" class="form-control" id="searchInput" placeholder="Search Customers" oninput="search()">
+              <button type="button" class="btn btn-primary" id="searchButton"  onclick="searchClick()">Search</button>
             </form>
           </div>
       </nav>
@@ -211,8 +211,8 @@ nav ul li a:hover {
                 </div>
                 <div class="mb-3">
                     <label for="contactNo1" class="form-label">Contact No</label>
-                    <input type="tel" class="form-control" id="contactNo1" placeholder="Enter Mobile Number" required>
-                </div>
+                    <input type="tel" class="form-control" id="contactNo1" placeholder="Enter Mobile Number" pattern="^\+?[0-9]*$" required title="Please enter a valid phone number (digits and an optional leading + sign only)."> 
+               </div>
                
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
@@ -385,6 +385,101 @@ function deleteCustomer(customerCode) {
     }
 }
 
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('customerTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/customer/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const customers = response;
+            console.log(customers);
+            
+            
+            tableBody.innerHTML = '';
+
+            customers.forEach(customer => {
+                const row = `
+                    <tr>
+                        <td>${customer.code}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.gender}</td>
+                        <td>${customer.loyaltyLevel}</td>
+                        <td>${customer.loyaltyPoints}</td>
+                        <td>${formatDate(customer.loyaltyDate)}</td>
+                        <td>${formatDate(customer.dob)}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.contact}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateCustomerTable();
+        }
+    });
+}
+
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('customerTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/customer/search/${name}`, 
+        type: 'GET', 
+        success: function(response) {
+            const customers = response;
+            console.log(customers);
+            
+            
+            tableBody.innerHTML = '';
+
+            customers.forEach(customer => {
+                const row = `
+                    <tr>
+                        <td>${customer.code}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.gender}</td>
+                        <td>${customer.loyaltyLevel}</td>
+                        <td>${customer.loyaltyPoints}</td>
+                        <td>${formatDate(customer.loyaltyDate)}</td>
+                        <td>${formatDate(customer.dob)}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.contact}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            
+            tableBody.innerHTML = '';
+            console.error(error);
+            alert("Customer not found!");
+          
+            
+        }
+    });
+}
+
+
+// Helper function to format dates (assuming this function exists and works correctly)
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+}
+
+
+
+
 function customerNextId(){
 
 $.ajax({
@@ -445,9 +540,7 @@ function updateCustomerTable() {
 
     
 
-    function formatDate(dateString) {
-    return new Date(dateString).toISOString().slice(0, 10);
-}
+
     
     updateCustomerTable();
 

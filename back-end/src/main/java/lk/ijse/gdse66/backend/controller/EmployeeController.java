@@ -54,4 +54,9 @@ public class EmployeeController {
     public String nextId(){
         return employeeService.generateNextId();
     }
+
+    @GetMapping("/search/{name}")
+    public List<EmployeeDTO> searchEmployee(@PathVariable(value = "name")String name){
+        return employeeService.searchEmployee(name);
+    }
 }
