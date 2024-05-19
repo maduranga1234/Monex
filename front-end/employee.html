@@ -31,97 +31,96 @@
         .search-container {
             margin-top: 20px;
         }
-        table {
+        nav {
+            background-color: #333;
+            padding: 10px;
+            position: fixed;
             width: 100%;
-            border-collapse: collapse;
+            margin-top: -58px;
+            z-index: 100;
         }
-        th, td {
-            border: 1px solid #da4703;
-            padding: 8px;
-            text-align: left;
+        nav ul {
+            list-style-type: none;
+            padding: 0;
         }
-        th {
-            background-color: #03a7da;
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
         }
-nav {
-    background-color: #333;
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    margin-top: -58px;
-    z-index: 100;
-
-}
-
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-nav ul li {
-  display: inline;
-  margin-right: 10px;
-}
-
-nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 5px;
-}
-
-nav ul li a:hover {
-  background-color: #555;
-}
-.search-container {
-    display: flex;
-    justify-content: flex-end; 
-    margin-top: -35px;
-    margin-right: 18px; 
-}
-
-.search-container form {
-    display: flex;
-}
-
-.search-container input {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 10px;
-    font-size: 14px;
-    width: 233px;
-    height: 29px;
-}
-
-.search-container button {
-    padding: 8px 14px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 10px;
-    cursor: pointer;
-    height: 29px;
-}
-
-.search-container button:hover {
-    background-color: #0056b3;
-}
-#title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-        text-transform: uppercase;
-        border-bottom: 2px solid #007bff;
-        padding-bottom: 5px;
-        margin-top: 50px; 
-        margin-left:48px;
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px;
+        }
+        nav ul li a:hover {
+            background-color: #555;
+        }
+        .search-container {
+            display: flex;
+            justify-content: flex-end; 
+            margin-top: -35px;
+            margin-right: 18px; 
+        }
+        .search-container form {
+            display: flex;
+        }
+        .search-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
+            width: 233px;
+            height: 29px;
+        }
+        .search-container button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 10px;
+            cursor: pointer;
+            height: 29px;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        #title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-top: 50px; 
+            margin-left:48px;
+        }
+        .table {
+      width: 100%;
+      border-collapse: collapse;
+     
     }
 
+     .table td {
+        border: 1px solid #ddd;
+     
+      text-align: left;
+      font-size: 12px;
 
-  </style>
+      
+    }
+
+    .table th {
+        background-color: #040564;
+      color: white;
+      font-size: 12px;
+      border: 1px solid #ddd;
+    }
+       
+    </style>
 </head>
 <body>
     <nav>
@@ -142,7 +141,7 @@ nav ul li a:hover {
           </div>
       </nav>
 
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <h2 class="mb-4" id="title">Employee Information Form</h2>
     <form id="employeeForm" onsubmit="event.preventDefault(); saveEmployee();">
         <div class="mb-3">
@@ -244,8 +243,7 @@ nav ul li a:hover {
         </div>
     </form>
     
-    <div class="mt-5">
-        
+    <div class="table-container">
         <table class="table">
             <thead>
                 <tr>
@@ -267,7 +265,7 @@ nav ul li a:hover {
                 </tr>
             </thead>
             <tbody id="employeeTableBody" onclick="tableClick(event)">
-            
+                <!-- Table rows go here -->
             </tbody>
         </table>
     </div>

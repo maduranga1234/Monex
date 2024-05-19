@@ -26,7 +26,7 @@ public class SuplierController {
     @PostMapping("/save")
     public SuplierDTO save(@RequestBody SuplierDTO suplierDTO){
         System.out.println(suplierDTO);
-//        customerDTO.setCode(customerService.generateNextId());
+
         return suplierService.saveSupplier(suplierDTO);
     }
 
