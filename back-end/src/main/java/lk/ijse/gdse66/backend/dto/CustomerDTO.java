@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+
 public class CustomerDTO {
     private String code;
     private String name;
@@ -26,4 +26,7 @@ public class CustomerDTO {
     private CustomerLoyaltyLevel loyaltyLevel;
     private Integer loyaltyPoints;
     private Timestamp recentPurchaseDate;
+
+
+
 }

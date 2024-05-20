@@ -1,13 +1,14 @@
 package lk.ijse.gdse66.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jdk.jfr.Percentage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.aspectj.apache.bcel.classfile.Code;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,8 +17,8 @@ import org.aspectj.apache.bcel.classfile.Code;
 public class Item {
 
     @Id
-    private String  itemCode;
-    private String  itemDesc;
+    private String itemCode;
+    private String itemDesc;
     @Column(columnDefinition = "LONGTEXT")
     private String itemPicture;
     private String category;
@@ -32,4 +33,11 @@ public class Item {
     private Double expectedProfit;
     private Double profitMargin;
     private String status;
+
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "item_code")
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
+
+
 }

@@ -6,6 +6,7 @@ import lk.ijse.gdse66.backend.util.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Customer {
 
     @Id
@@ -36,8 +38,8 @@ public class Customer {
     private Integer loyaltyPoints;
     private Timestamp recentPurchaseDate;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer")
-    private List<Order> orders = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "customer_id")
+//    private List<Order> orders = new ArrayList<>();
 
 
 

@@ -21,9 +21,12 @@ public class OrderController {
     private OrderService salesService;
 
     @PostMapping("/save")
-    public OrderDTO save(@RequestBody OrderDTO orderDTO){
+    public void save(@RequestBody OrderDTO orderDTO){
         System.out.println(orderDTO);
 
-        return salesService.saveSale(orderDTO);
+        salesService.placeOrder(orderDTO);
     }
 }
+
+
+

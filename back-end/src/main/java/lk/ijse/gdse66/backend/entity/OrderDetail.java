@@ -4,32 +4,37 @@ import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import jakarta.persistence.*;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
+@Table(name = "order_detail")
 public class OrderDetail {
-
     @EmbeddedId
     private OrderDetailPK orderDetailPK;
+
     private String itemName;
     private Double unitPrice;
     private Integer itemQty;
+
     @ManyToOne
-    @JoinColumn(name = "orderId",
-            referencedColumnName = "orderId",insertable = false,
+    @JoinColumn(name = "order_id",
+            referencedColumnName = "order_id",insertable = false,
             updatable = false)
-    private Order order;
+    private Order order_id;
+
     @ManyToOne
-    @JoinColumn(name = "itemCode",
+    @JoinColumn(name = "item_code",
             referencedColumnName = "itemCode",
             insertable = false,
             updatable = false)
-    private Item item;
-
+    private Item item_code;
 }

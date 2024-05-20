@@ -15,18 +15,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+
 public class OrderDTO {
+
     private String orderId;
     private Timestamp orderDate;
     private Double totalPrice;
     private Integer addedPoints;
-    private String cashierName;
     private String paymentMethod;
-
-
-    private Customer customer;
-
+    private String cashierName;
+    private String customer_id;
     private String customerName;
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    private List<OrderDetailDTO> orderDetailDTOList;
 }
