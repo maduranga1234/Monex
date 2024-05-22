@@ -56,5 +56,10 @@ public class CustomerController {
         return customerService.searchCustomer(name);
     }
 
+    @GetMapping("/searchName/{id}")
+    public CustomerDTO searchCustomerName(@PathVariable(value = "id")String id){
+        return customerService.searchCustomerById(id);
+    }
+
 
 }

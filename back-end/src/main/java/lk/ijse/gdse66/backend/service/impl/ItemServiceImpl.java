@@ -96,4 +96,12 @@ public class ItemServiceImpl implements ItemService {
                 .map(item -> mapper.map(item, ItemDTO.class))
                 .toList();
     }
+
+    @Override
+    public ItemDTO searchItemById(String id) {
+        if (!itemRepo.existsById(id)){
+            throw new NotFoundException("Customer Code does not exists!");
+        }
+        return mapper.map(itemRepo.findByItemCode(id),ItemDTO.class);
+    }
 }

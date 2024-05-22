@@ -62,7 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDTO> searchCustomer(String name) {
-        List<Customer> foundCustomers = customerRepo.findByNameStartingWith(name);
+        List<Customer> foundCustomers = customerRepo.findByCodeStartingWith(name);
 
         if (foundCustomers.isEmpty()) {
             throw new NotFoundException("No customers found with the name: " + name);
@@ -71,6 +71,14 @@ public class CustomerServiceImpl implements CustomerService {
         return foundCustomers.stream()
                 .map(customer -> mapper.map(customer, CustomerDTO.class))
                 .toList();
+    }
+
+    @Override
+    public CustomerDTO searchCustomerById(String code) {
+        if (!customerRepo.existsById(code)){
+            throw new NotFoundException("Customer Code does not exists!");
+        }
+        return mapper.map(customerRepo.findByCode(code),CustomerDTO.class);
     }
 
 

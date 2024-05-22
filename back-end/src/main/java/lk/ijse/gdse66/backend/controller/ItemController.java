@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.backend.controller;
 
+import lk.ijse.gdse66.backend.dto.CustomerDTO;
 import lk.ijse.gdse66.backend.dto.EmployeeDTO;
 import lk.ijse.gdse66.backend.dto.ItemDTO;
 import lk.ijse.gdse66.backend.dto.SuplierDTO;
@@ -59,5 +60,10 @@ public class ItemController {
     @GetMapping("/search/{name}")
     public List<ItemDTO> searchItem(@PathVariable(value = "name")String name){
         return itemService.searchItem(name);
+    }
+
+    @GetMapping("/searchName/{id}")
+    public ItemDTO searchItemName(@PathVariable(value = "id")String id){
+        return itemService.searchItemById(id);
     }
 }

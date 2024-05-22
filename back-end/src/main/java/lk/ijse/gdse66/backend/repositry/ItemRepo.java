@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.backend.repositry;
 
+import lk.ijse.gdse66.backend.entity.Customer;
 import lk.ijse.gdse66.backend.entity.Employee;
 import lk.ijse.gdse66.backend.entity.Item;
 import lk.ijse.gdse66.backend.entity.Suplier;
@@ -15,7 +16,7 @@ public interface ItemRepo extends JpaRepository<Item,String> {
 
     Item findTopByOrderByItemCodeDesc();
     List<Item> findByItemDescIsStartingWith(String name);
-
+    Item findByItemCode(String id);
 
     List<Item> findByCategoryContaining(String value);
 

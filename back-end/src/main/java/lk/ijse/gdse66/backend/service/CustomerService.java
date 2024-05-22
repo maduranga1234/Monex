@@ -13,5 +13,13 @@ public interface CustomerService {
     String generateNextId();
     List<CustomerDTO> searchCustomer(String name);
 
+    CustomerDTO searchCustomerById(String code);
+
+
+
+
+
+
+
 
 }

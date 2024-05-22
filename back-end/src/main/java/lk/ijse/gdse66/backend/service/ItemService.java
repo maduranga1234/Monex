@@ -1,5 +1,6 @@
 package lk.ijse.gdse66.backend.service;
 
+import lk.ijse.gdse66.backend.dto.CustomerDTO;
 import lk.ijse.gdse66.backend.dto.EmployeeDTO;
 import lk.ijse.gdse66.backend.dto.ItemDTO;
 import lk.ijse.gdse66.backend.entity.Item;
@@ -14,4 +15,6 @@ public interface ItemService {
     List<ItemDTO> getAllItem();
     String generateNextId();
     List<ItemDTO> searchItem(String name);
+
+    ItemDTO searchItemById(String id);
 }
