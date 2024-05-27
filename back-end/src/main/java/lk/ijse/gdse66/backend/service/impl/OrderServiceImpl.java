@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
     public void placeOrder(OrderDTO orderDTO) {
         Order order = mapper.map(orderDTO, Order.class);
 
-        /*update customer ///////////////////////////*/
+
         Customer customer = customerRepo.findByCode(orderDTO.getCustomer_id());
         order.setCustomer_id(customer);
 

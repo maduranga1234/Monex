@@ -9,10 +9,11 @@ import java.util.List;
 public interface OrderRepo extends JpaRepository<Order,String> {
 
     Order findTopByOrderByOrderIdDesc();
-    @Query(value = "SELECT * FROM order WHERE order_date >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 3 DAY)", nativeQuery = true)
+
+    @Query(value = "SELECT * FROM orders WHERE order_date >= DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 3 DAY)", nativeQuery = true)
     List<Order> getAllRefundOrders();
 
-    @Query(value = "SELECT * FROM order WHERE order_id =:orderId", nativeQuery = true)
+    @Query(value = "SELECT * FROM orders WHERE order_id =:orderId", nativeQuery = true)
     Order findByOrderId(String orderId);
 
     Order findOrderByOrderId(String orderId);
