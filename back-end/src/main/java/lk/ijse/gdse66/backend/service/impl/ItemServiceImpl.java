@@ -104,4 +104,16 @@ public class ItemServiceImpl implements ItemService {
         }
         return mapper.map(itemRepo.findByItemCode(id),ItemDTO.class);
     }
+
+    @Override
+    public List<ItemDTO> getAllItemsByPrice(double minPrice, double maxPrice) {
+        return itemRepo.findByUnitPriceSaleBetween(minPrice, maxPrice).stream().map(item -> mapper.map(item,ItemDTO.class)).toList();
+
+    }
+
+    @Override
+    public List<ItemDTO> getAllItemsByGender(String gender) {
+        return itemRepo.findByCategoryContaining(gender).stream().map(item -> mapper.map(item,ItemDTO.class)).toList();
+
+    }
 }

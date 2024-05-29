@@ -17,4 +17,8 @@ public interface ItemService {
     List<ItemDTO> searchItem(String name);
 
     ItemDTO searchItemById(String id);
+
+    List<ItemDTO> getAllItemsByPrice(double minPrice, double maxPrice);
+
+    List<ItemDTO> getAllItemsByGender(String gender);
 }

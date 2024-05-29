@@ -66,4 +66,24 @@ public class ItemController {
     public ItemDTO searchItemName(@PathVariable(value = "id")String id){
         return itemService.searchItemById(id);
     }
+
+
+
+
+    @GetMapping("/getAllItemsByPrice/{minPrice}/{maxPrice}")
+    public List<ItemDTO> getAllItemsByPrice(@PathVariable double minPrice,@PathVariable double maxPrice){
+        return itemService.getAllItemsByPrice(minPrice, maxPrice);
+    }
+
+    @GetMapping("/getAllItemsByCategoryGender")
+    public List<ItemDTO> getAllItemsByGender(@RequestParam("gender") String gender){
+        System.out.println("gender = "+gender);
+        return itemService.getAllItemsByGender(gender);
+    }
+
+    @GetMapping("/getAllItemsByCategoryOccasion")
+    public List<ItemDTO> getAllItemsByOccasion(@RequestParam("occasion") String occasion){
+        System.out.println("occasion = "+occasion);
+        return itemService.getAllItemsByGender(occasion);
+    }
 }

@@ -18,6 +18,9 @@ public interface ItemRepo extends JpaRepository<Item,String> {
     List<Item> findByItemDescIsStartingWith(String name);
     Item findByItemCode(String id);
 
+
+    List<Item> findByUnitPriceSaleBetween(double minPrice, double maxPrice);
+
     List<Item> findByCategoryContaining(String value);
 
     @Query("SELECT i.itemCode FROM Item i")
