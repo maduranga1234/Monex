@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information Form</title>
+ 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .form-container {
+            display: none; 
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            width: 700px; 
+            max-height: 430px; 
+            overflow-y: auto; 
+            margin-left: 20%;
+        }
+        .form-label {
+            font-size: 14px;
+        }
+        .form-control {
+            font-size: 14px;
+        }
+        .btn-group {
+            margin-top: 20px;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+        nav {
+    list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #040564;
+            position: fixed;
+            top: 0;
+            width: 100%;
+
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
+.search-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: -7px;
+    margin-right: 18px; 
+}
+        .search-container form {
+            display: flex;
+        }
+        .search-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 14px;
+            width: 233px;
+            height: 29px;
+        }
+        .search-container button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 10px;
+            cursor: pointer;
+            height: 29px;
+        }
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+        #title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 2px solid #002470;
+        padding-bottom: 5px;
+        margin-top: 58px; 
+        
+    }
+        #title h2 {
+            font-family: 'Arial', sans-serif; 
+        }
+        .table {
+      width: 100%;
+      border-collapse: collapse;
+     
+    }
+
+     .table td {
+        border: 1px solid #ddd;
+     
+      text-align: left;
+      font-size: 12px;
+
+      
+    }
+
+    .table th {
+        background-color: #040564;
+      color: white;
+      font-size: 12px;
+      border: 1px solid #ddd;
+    }
+       
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+          <li><a href="UserdashBoard.html">Home</a></li>
+          <li><a href="Usercustomer.html">Customer</a></li>
+          <li><a href="Useremployee.html">Employee</a></li>
+          <li><a href="Useritem.html">Item</a></li>
+          <li><a href="Usersuplier.html">Supplier</a></li>
+          <li><a href="UserorderDetail.html">Order Detail</a></li>
+          <li><a href="Userproducts.html">Prouducts</a></li>
+        </ul>
+        <div class="search-container">
+            <form id="searchForm">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search Employee" oninput="search()">
+                <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
+              </form>
+          </div>
+      </nav>
+
+<div class="container-fluid mt-5">
+    <h2 class="mb-4" id="title">Employee Information Form</h2>
+   
+    <form id="employeeForm" onsubmit="event.preventDefault(); saveEmployee();">
+        <div class="mb-3">
+            
+
+            <div class="form-container" id="employeeFormContainer">
+                <div class="mb-3">
+                    <label for="employeeCode" class="form-label">Employee Code</label>
+                    <input type="text" class="form-control" id="employeeCode" placeholder="Enter Employee Code" required>
+                </div>
+                <div class="mb-3">
+                    <label for="employeeName" class="form-label">Employee Name</label>
+                    <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="profilePic" class="form-label">Profile Picture (Base64)</label>
+                    <input type="hidden" class="form-control" id="profilePic" placeholder="Enter Profile Picture (Base64)" required>
+                    <img id="EmployeePicturePreview" src="" alt="Employee Picture Preview" style="max-width: 100%; max-height: 200px; display: none;">
+                    <input type="file" class="form-control" id="profilePic1" accept="image/*" onchange="handleImageUpload(event)" required>
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <select class="form-select" id="gender" required>
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="status" class="form-label">Status</label>
+                    <input type="text" class="form-control" id="status" placeholder="Enter Civil Status" required>
+                </div>
+                <div class="mb-3">
+                    <label for="designation" class="form-label">Designation</label>
+                    <input type="text" class="form-control" id="designation" placeholder="Enter Designation" required>
+                </div>
+                <div class="mb-3">
+                    <label for="accessRole" class="form-label">Access Role</label>
+                    <select class="form-select" id="accessRole" required>
+                        <option value="ADMIN">ADMIN</option>
+                        <option value="USER">USER</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="dob" class="form-label">Date of Birth</label>
+                    <input type="date" class="form-control" id="dob" required>
+                </div>
+                <div class="mb-3">
+                    <label for="dateOfJoin" class="form-label">Date of Join</label>
+                    <input type="date" class="form-control" id="dateOfJoin" required>
+                </div>
+                <div class="mb-3">
+                    <label for="attachedBranch" class="form-label">Attached Branch</label>
+                    <input type="text" class="form-control" id="attachedBranch" placeholder="Enter Attached Branch" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine1" class="form-label">Address Line 01</label>
+                    <input type="text" class="form-control" id="addressLine1" placeholder="Building No. or Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine2" class="form-label">Address Line 02</label>
+                    <input type="text" class="form-control" id="addressLine2" placeholder="Street or Lane" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine3" class="form-label">Address Line 03</label>
+                    <input type="text" class="form-control" id="addressLine3" placeholder="City" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine4" class="form-label">Address Line 04</label>
+                    <input type="text" class="form-control" id="addressLine4" placeholder="State" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine5" class="form-label">Address Line 05</label>
+                    <input type="text" class="form-control" id="addressLine5" placeholder="Postal Code" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contactNo" class="form-label">Contact No.</label>
+                    <input type="tel" class="form-control" id="contactNo" placeholder="Enter Contact Number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="emergencyContact" class="form-label">Emergency Contact</label>
+                    <input type="text" class="form-control" id="emergencyContact" placeholder="Enter Emergency Contact" required>
+                </div>
+                <div class="mb-3">
+                    <label for="informInCaseOfEmergency" class="form-label">Inform in Case of Emergency</label>
+                    <input type="text" class="form-control" id="informInCaseOfEmergency" placeholder="Enter Guardian or Nominated Person" required>
+                </div>
+        
+               
+            </div>
+        </div>
+    </form>
+    
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Employee Code</th>
+                    <th>Employee Name</th>
+                    <th>Profile picture</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Designation</th>
+                    <th>Access Role</th>
+                    <th>DOB</th>
+                    <th>Date of Join</th>
+                    <th>Attached Branch</th>
+                    <th>Address</th>
+                    <th>Contact No.</th>
+                    <th>Email</th>
+                    <th>Emergency Contact</th>
+                    <th>Inform in Case of Emergency</th>
+                </tr>
+            </thead>
+            <tbody id="employeeTableBody" onclick="tableClick(event)">
+                <!-- Table rows go here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let employees = [];
+
+    function saveEmployee() {
+        const employee = {
+            employeeCode: document.getElementById('employeeCode').value,
+            employeeName: document.getElementById('employeeName').value,
+            employeeProfilePic: document.getElementById('profilePic').value,
+            gender: document.getElementById('gender').value,
+            status: document.getElementById('status').value,
+            designation: document.getElementById('designation').value,
+            accessRole: document.getElementById('accessRole').value,
+            dob: document.getElementById('dob').value,
+            dateOfJoinDate: document.getElementById('dateOfJoin').value,
+            attachedbranch: document.getElementById('attachedBranch').value,
+            address: `${document.getElementById('addressLine1').value}, ${document.getElementById('addressLine2').value}, ${document.getElementById('addressLine3').value}, ${document.getElementById('addressLine4').value}, ${document.getElementById('addressLine5').value}`,
+            contactNo: document.getElementById('contactNo').value,
+            emailToContact: document.getElementById('email').value,
+            emergencyContact: document.getElementById('emergencyContact').value,
+            informInCaseOfEmergency: document.getElementById('informInCaseOfEmergency').value
+        };
+
+        $.ajax({
+                url: 'http://localhost:8080/employee/save',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(employee),
+                headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
+                success: function(response) {
+                    // document.getElementById('employeeForm').reset();
+                    alert('Employee information saved successfully!');
+                    console.log(employee);
+                    updateEmployeeTable();
+                    document.getElementById('employeeForm').reset();
+                    employeeNextId();
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Failed to save employee information. Please try again.');
+                }
+            });
+    }
+
+    function updateEmployeeTable() {
+    const tableBody = document.getElementById('employeeTableBody');
+    tableBody.innerHTML = ''; 
+
+    $.ajax({
+        url: 'http://localhost:8080/employee/getAllEmployees',
+        type: 'GET',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
+        success: function(response) {
+            const employees = response;
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to retrieve employee information. Please try again.');
+        }
+    });
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(); // Adjust the format as needed
+}
+ updateEmployeeTable();
+
+    function updateEmployee() {
+        const employee = {
+            employeeCode: document.getElementById('employeeCode').value,
+            employeeName: document.getElementById('employeeName').value,
+            employeeProfilePic: document.getElementById('profilePic').value,
+            gender: document.getElementById('gender').value,
+            status: document.getElementById('status').value,
+            designation: document.getElementById('designation').value,
+            accessRole: document.getElementById('accessRole').value,
+            dob: document.getElementById('dob').value,
+            dateOfJoinDate: document.getElementById('dateOfJoin').value,
+            attachedbranch: document.getElementById('attachedBranch').value,
+            address: `${document.getElementById('addressLine1').value}, ${document.getElementById('addressLine2').value}, ${document.getElementById('addressLine3').value}, ${document.getElementById('addressLine4').value}, ${document.getElementById('addressLine5').value}`,
+            contactNo: document.getElementById('contactNo').value,
+            emailToContact: document.getElementById('email').value,
+            emergencyContact: document.getElementById('emergencyContact').value,
+            informInCaseOfEmergency: document.getElementById('informInCaseOfEmergency').value
+        };$.ajax({
+        url: `http://localhost:8080/employee/update`, 
+        type: 'PATCH', 
+        contentType: 'application/json',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        data: JSON.stringify(employee),
+        success: function(response) {
+            alert('Employee information updated successfully!');
+            updateEmployeeTable();
+            document.getElementById('employeeForm').reset();
+            employeeNextId();
+
+            
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to update Employee information. Please try again.');
+        }
+    });
+      
+       
+    }
+
+    function deleteEmployee() {
+    
+        const code = document.getElementById('employeeCode').value;
+   
+   if (confirm('Are you sure you want to delete this Item?')) {
+       $.ajax({
+           url: `http://localhost:8080/employee/${code}`, 
+           type: 'DELETE', 
+           headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+           success: function(response) {
+               alert('Employee information deleted successfully!');
+               updateEmployeeTable();
+               document.getElementById('employeeForm').reset();
+               employeeNextId();
+
+               
+           },
+           error: function(xhr, status, error) {
+               console.error(error);
+               alert('Failed to delete Employee information. Please try again.');
+           }
+       });
+      }
+    }
+
+    function employeeNextId(){
+
+$.ajax({
+   url: `http://localhost:8080/employee/nextId`, 
+   type: 'GET', 
+   headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+   success: function(response) {
+       const nextId=response;
+       document.getElementById('employeeCode').value =nextId;
+   },
+  
+});
+
+}
+
+employeeNextId();
+
+
+    function tableClick(event) {
+    const row = event.target.closest('tr');
+
+    if (row) {
+        const cells = row.querySelectorAll('td');
+
+        // Retrieve the values from the clicked row's cells
+        const employeeCode = cells[0].textContent;
+        const employeeName = cells[1].textContent;
+        const profilePic = cells[2].querySelector('img').getAttribute('src'); // Get the src attribute of the img tag
+        const gender = cells[3].textContent;
+        const status = cells[4].textContent;
+        const designation = cells[5].textContent;
+        const accessRole = cells[6].textContent;
+        const dob = cells[7].textContent;
+        const dateOfJoin = cells[8].textContent;
+        const attachedBranch = cells[9].textContent;
+        const address = cells[10].textContent;
+        const contactNo = cells[11].textContent;
+        const email = cells[12].textContent;
+        const emergencyContact = cells[13].textContent;
+        const informInCaseOfEmergency = cells[14].textContent;
+
+        // Populate the form fields with the retrieved values
+        document.getElementById('employeeCode').value = employeeCode;
+        document.getElementById('employeeName').value = employeeName;
+        document.getElementById('profilePic').value = profilePic;
+        document.getElementById('EmployeePicturePreview').src = profilePic; 
+        document.getElementById('EmployeePicturePreview').style.display = 'block'; 
+
+        document.getElementById('gender').value = gender;
+        document.getElementById('status').value = status;
+        document.getElementById('designation').value = designation;
+        document.getElementById('accessRole').value = accessRole;
+        document.getElementById('dob').value = dob;
+        document.getElementById('dateOfJoin').value = dateOfJoin;
+        document.getElementById('attachedBranch').value = attachedBranch;
+
+        // Split the address string and populate address fields
+        const addressParts = address.split(', ');
+        document.getElementById('addressLine1').value = addressParts[0] || '';
+        document.getElementById('addressLine2').value = addressParts[1] || '';
+        document.getElementById('addressLine3').value = addressParts[2] || '';
+        document.getElementById('addressLine4').value = addressParts[3] || '';
+        document.getElementById('addressLine5').value = addressParts[4] || '';
+
+        document.getElementById('contactNo').value = contactNo;
+        document.getElementById('email').value = email;
+        document.getElementById('emergencyContact').value = emergencyContact;
+        document.getElementById('informInCaseOfEmergency').value = informInCaseOfEmergency;
+
+        // Display the employee form container
+        
+    }
+}
+
+
+
+
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('employeeTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/employee/search/${name}`, 
+        type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            const employees = response;
+            console.log(employees);
+            
+            
+            tableBody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateEmployeeTable();
+        }
+    });
+}
+
+
+
+
+
+
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('employeeTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/employee/search/${name}`, 
+        type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            const employees = response;
+            console.log(employees);
+            
+            
+            tableBody.innerHTML = '';
+
+            employees.forEach(employee => {
+                const row = `
+                    <tr>
+                        <td>${employee.employeeCode}</td>
+                        <td>${employee.employeeName}</td>
+                        <td><img src="${employee.employeeProfilePic}" style="max-width: 100px; max-height: 100px;" /></td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.status}</td>
+                        <td>${employee.designation}</td>
+                        <td>${employee.accessRole}</td>
+                        <td>${employee.dob}</td>
+                        <td>${employee.dateOfJoinDate}</td>
+                        <td>${employee.attachedbranch}</td>
+                        <td>${employee.address}</td>
+                        <td>${employee.contactNo}</td>
+                        <td>${employee.emailToContact}</td>
+                        <td>${employee.emergencyContact}</td>
+                        <td>${employee.informInCaseOfEmergency}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            alert("Employee mot found!");
+            tableBody.innerHTML = '';
+
+        }
+    });
+}
+
+    function toggleEmployeeFormContainer() {
+       
+        const formContainer = document.getElementById('employeeFormContainer');
+        formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+    }
+    function handleImageUpload(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const base64Image = e.target.result;
+            document.getElementById('profilePic').value = base64Image;
+            document.getElementById('EmployeePicturePreview').src = base64Image;
+            document.getElementById('EmployeePicturePreview').style.display = 'block';
+
+
+            // <label for="profilePic" class="form-label">Profile Picture (Base64)</label>
+            //         <input type="hidden" class="form-control" id="profilePic" placeholder="Enter Profile Picture (Base64)" required>
+            //         <img id="EmployeePicturePreview" src="" alt="Employee Picture Preview" style="max-width: 100%; max-height: 200px; display: none;">
+            //         <input type="file" class="form-control" id="profilePic1" accept="image/*" onchange="handleImageUpload(event)" required>
+        };
+
+        reader.readAsDataURL(file);
+    }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #040564;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            margin: 0;
+        }
+
+        form {
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="number"], input[type="datetime-local"] {
+            width: 90%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #979090;
+        }
+
+        select {
+            width: 93%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #979090;
+        }
+
+        #customerName, #itemName, #totalAmount, #cash, #balance {
+            display: block;
+            width: 90%;
+            padding: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #979090;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #040564;
+            color: white;
+        }
+
+        button[type="submit"], button[type="button"] {
+            background-color: #040564;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button[type="button"] {
+            width: 160px;
+            background-color: #0ad1b7;
+            margin-top: 77px;
+            margin-left: 110px;
+        }
+
+        #one, #two, #three {
+            width: 32%;
+            background-color: rgb(248, 255, 254);
+            float: left;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #two {
+            margin-left: 2%;
+        }
+
+        #three {
+            margin-left: 2%;
+        }
+
+        @media (max-width: 768px) {
+            #one, #two, #three {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .search-container {
+            position: absolute;
+            top: 4%;
+            right: 0px;
+            transform: translateY(-50%);
+        }
+
+        .search-container form {
+            display: flex;
+        }
+
+        .search-container input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 11px;
+            font-size: 14px;
+            width: 174px;
+            height: 9px;
+            margin-top: 76px;
+        }
+
+        .search-container button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            margin-left: 24px;
+            margin-bottom: 75px;
+            width: 75px;
+            height: 30px;
+        }
+
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #040564;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        ul li {
+            float: left;
+        }
+
+        ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            background-color: #111;
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="AdminDashboard.html" class="active">Home</a></li>
+            <li><a href="Admincustomer.html">Customer</a></li>
+            <li><a href="Adminemployee.html">Employee</a></li>
+            <li><a href="Adminitem.html">Item</a></li>
+            <li><a href="Adminsale.html">Order</a></li>
+            <li><a href="Adminsuplier.html">Supplier</a></li>
+            <li><a href="AdminorderDetail.html">Order Detail</a></li>
+            <li><a href="Adminproducts.html">Products</a></li>
+          </ul>
+    
+    <div class="main-content">
+        <h1>Order Details Form</h1>
+        <div class="search-container">
+            <form id="searchForm">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search Order Id">
+                <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
+            </form>
+        </div>
+
+    </nav>
+    <table>
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Item Code</th>
+                <th>Item Name</th>
+                <th>Size</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-orderDetailCart">
+        </tbody>
+    </table>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+       
+        function getAllOrderDetail() {
+            const tableBody = document.getElementById('tbody-orderDetailCart');
+            tableBody.innerHTML = ''; 
+
+            $.ajax({
+                url: 'http://localhost:8080/orderDetail/getAllRefundOrders',
+                type: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function(response) {
+                    console.log(response);
+                    response.forEach(order => {
+                        order.orderDetailDTOList.forEach((detail, index) => {
+                            const row = `
+                                <tr>
+                                    <td>${order.orderId}</td>
+                                    <td>${detail.item_code}</td>
+                                    <td>${detail.itemName}</td>
+                                    <td>${detail.size ? detail.size : 'N/A'}</td>
+                                    <td>${detail.unitPrice.toFixed(2)}</td>
+                                    <td>${detail.itemQty}</td>
+                                    <td><button class="delete-button" onclick="refundOrder('${order.orderId}', ${index}, this)">Delete</button></td>
+                                </tr>
+                            `;
+                            tableBody.innerHTML += row;
+                        });
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                    alert('Failed to retrieve order details. Please try again.');
+                }
+            });
+        }
+        getAllOrderDetail();
+
+        function refundOrder(orderId, index, buttonElement) {
+            console.log("Deleting order:", orderId);
+            $.ajax({
+                url: `http://localhost:8080/orderDetail/refundOrder?orderId=${orderId}`,
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function(resp) {
+                    alert("Order deleted successfully");
+                    const row = buttonElement.closest('tr');
+                    row.remove();
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error deleting order: ", xhr);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

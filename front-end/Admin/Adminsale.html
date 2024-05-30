@@ -10,11 +10,13 @@
     }
 
     h1 {
-      background-color: #040564;
-      color: white;
-      padding: 10px;
-      text-align: center;
-    }
+            background-color: #040564;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: relative;
+            margin-top: 60px;
+        }
 
     form {
       margin: 20px;
@@ -103,10 +105,53 @@
       border-collapse: collapse;
       margin-top: 20px;
     }
+
+     ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #040564;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        ul li {
+            float: left;
+        }
+
+        ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            background-color: #111;
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+  <ul>
+    <li><a href="AdminDashboard.html" class="active">Home</a></li>
+    <li><a href="Admincustomer.html">Customer</a></li>
+    <li><a href="Adminemployee.html">Employee</a></li>
+    <li><a href="Adminitem.html">Item</a></li>
+    <li><a href="Adminsale.html">Order</a></li>
+    <li><a href="Adminsuplier.html">Supplier</a></li>
+    <li><a href="AdminorderDetail.html">Order Detail</a></li>
+    <li><a href="Adminproducts.html">Products</a></li>
+  </ul>
+
   <h1>Order Form</h1>
   <form>
     <div id="one">
@@ -197,6 +242,9 @@
       $.ajax({
         url: 'http://localhost:8080/customer/getAllCustomers',
         type: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
           const customers = response;
           const customerSelect = $('#CustomerId');
@@ -219,6 +267,9 @@
       $.ajax({
         url: `http://localhost:8080/customer/searchName/${id}`,
         type: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
           const customer = response;
           console.log(customer);
@@ -240,6 +291,9 @@
       $.ajax({
         url: 'http://localhost:8080/item/getAllItem',
         type: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
           const items = response;
           const customerSelect = $('#ItemId');
@@ -267,6 +321,9 @@
       $.ajax({
         url: `http://localhost:8080/item/searchName/${id}`,
         type: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
           const item = response;
           console.log(item);
@@ -396,6 +453,9 @@
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(orderData),
+          headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
             success: function(response) {
                 alert("Order saved successfully!");
             },

@@ -53,11 +53,15 @@
       border: 1px solid #ddd;
     }
 nav {
-    background-color: #333;
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    margin-top: -58px;
+    list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #040564;
+            position: fixed;
+            top: 0;
+            width: 100%;
+
 }
 
 nav ul {
@@ -66,15 +70,16 @@ nav ul {
 }
 
 nav ul li {
-  display: inline;
-  margin-right: 10px;
+    float: left;
 }
 
 nav ul li a {
-  color: #fff;
-  text-decoration: none;
-  padding: 5px;
-  z-index: 100;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 
 }
 
@@ -84,7 +89,7 @@ nav ul li a:hover {
 .search-container {
     display: flex;
     justify-content: flex-end; 
-    margin-top: -35px;
+    margin-top: -7px;
     margin-right: 18px; 
 }
 
@@ -123,10 +128,10 @@ nav ul li a:hover {
         margin-bottom: 20px;
         text-align: center;
         text-transform: uppercase;
-        border-bottom: 2px solid #007bff;
+        border-bottom: 2px solid #002470;
         padding-bottom: 5px;
-        margin-top: 50px; 
-        margin-left:48px;
+        margin-top: 58px; 
+        
     }
 
     </style>
@@ -134,12 +139,13 @@ nav ul li a:hover {
 <body>
     <nav>
         <ul>
-          <li><a href="dashBoard.html">Home</a></li>
-          <li><a href="customer.html">Customer</a></li>
-          <li><a href="employee.html">Employee</a></li>
-          <li><a href="item.html">Item</a></li>
-          <li><a href="suplier.html">Supplier</a></li>
-          <li><a href="sale.html">Order</a></li>
+            <li><a href="UserdashBoard.html">Home</a></li>
+            <li><a href="Usercustomer.html">Customer</a></li>
+            <li><a href="Useremployee.html">Employee</a></li>
+            <li><a href="Useritem.html">Item</a></li>
+            <li><a href="Usersuplier.html">Supplier</a></li>
+            <li><a href="UserorderDetail.html">Order Detail</a></li>
+            <li><a href="Userproducts.html">Prouducts</a></li>
         </ul>
 
         <div class="search-container">
@@ -154,7 +160,7 @@ nav ul li a:hover {
     <h2 class="mb-4" id="title">Supplier Information Form</h2>
     <form id="supplierForm">
         <div class="mb-3">
-            <button type="button" class="btn btn-primary" onclick="editSupplier()">Edit Supplier</button>
+           
 
             <div class="form-container" id="supplierFormContainer">
                 <div class="mb-3">
@@ -209,11 +215,7 @@ nav ul li a:hover {
                     <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
                 </div>
         
-                <div class="btn-group d-flex justify-content-between">
-                    <button type="button" class="btn btn-primary" onclick="saveSupplier()">Save</button>
-                    <button type="button" class="btn btn-success" onclick="updateSupplier()">Update</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteSupplier()">Delete</button>
-                </div>
+              
             </div>
         </div>
     </form>
@@ -387,6 +389,9 @@ function updateSupplier() {
     $.ajax({
         url: 'http://localhost:8080/supplier/getAllSupplier',
         type: 'GET',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             const suppliers = response;
 
@@ -449,7 +454,6 @@ function tableClick(event) {
         document.getElementById('contactNo1').value = mobileNumber;
         document.getElementById('contactNo2').value = landlineNumber;
         document.getElementById('email').value = email;
-        document.getElementById('supplierFormContainer').style.display = 'block';
       
     }
 }
@@ -462,6 +466,9 @@ function search() {
     $.ajax({
         url: `http://localhost:8080/supplier/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             const suppliers = response;
             console.log(suppliers);
@@ -500,6 +507,9 @@ function searchClick() {
     $.ajax({
         url: `http://localhost:8080/supplier/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             const suppliers = response;
             console.log(suppliers);

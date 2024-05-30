@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Information Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .form-container {
+             display: none; 
+             padding: 10px;
+             border: 1px solid #ddd;
+             border-radius: 10px;
+             box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+             width: 700px; 
+             max-height: 430px; 
+             overflow-y: auto; 
+             margin-left: 20%;
+         }
+         .form-label {
+             font-size: 14px;
+         }
+         .form-control {
+             font-size: 14px;
+         }
+         .btn-group {
+             margin-top: 20px;
+         }
+         .search-container {
+             margin-top: 20px;
+         }
+         .table {
+       width: 100%;
+       border-collapse: collapse;
+       background-color: #03a7da;
+     }
+ 
+      .table td {
+         border: 1px solid #ddd;
+       padding: 8px;
+       text-align: left;
+       font-size: 12px;
+ 
+       
+     }
+ 
+     .table th {
+         background-color: #040564;
+       color: white;
+       font-size: 14px;
+       border: 1px solid #ddd;
+     }
+ nav {
+     list-style-type: none;
+             padding: 0;
+             margin: 0;
+             overflow: hidden;
+             background-color: #040564;
+             position: fixed;
+             top: 0;
+             width: 100%;
+ 
+ }
+ 
+ nav ul {
+   list-style-type: none;
+   padding: 0;
+ }
+ 
+ nav ul li {
+     float: left;
+ }
+ 
+ nav ul li a {
+     color: #fff;
+     text-decoration: none;
+     padding: 10px 20px;
+     display: block;
+     border-radius: 5px;
+     transition: background-color 0.3s ease, color 0.3s ease;
+ 
+ }
+ 
+ nav ul li a:hover {
+   background-color: #555;
+ }
+ .search-container {
+     display: flex;
+     justify-content: flex-end; 
+     margin-top: -7px;
+     margin-right: 18px; 
+ }
+ 
+ .search-container form {
+     display: flex;
+ }
+ 
+ .search-container input {
+     padding: 10px;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     margin-right: 10px;
+     font-size: 14px;
+     width: 233px;
+     height: 29px;
+ }
+ 
+ .search-container button {
+     padding: 8px 14px;
+     border: none;
+     border-radius: 8px;
+     background-color: #007bff;
+     color: #fff;
+     font-size: 10px;
+     cursor: pointer;
+     height: 29px;
+ }
+ 
+ .search-container button:hover {
+     background-color: #0056b3;
+ }
+ #title {
+         font-size: 24px;
+         font-weight: bold;
+         color: #333;
+         margin-bottom: 20px;
+         text-align: center;
+         text-transform: uppercase;
+         border-bottom: 2px solid #002470;
+         padding-bottom: 5px;
+         margin-top: 58px; 
+         
+     }
+ 
+     </style>
+ </head>
+ <body>
+     <nav>
+        <ul>
+            <li><a href="AdminDashboard.html" class="active">Home</a></li>
+            <li><a href="Admincustomer.html">Customer</a></li>
+            <li><a href="Adminemployee.html">Employee</a></li>
+            <li><a href="Adminitem.html">Item</a></li>
+            <li><a href="Adminsale.html">Order</a></li>
+            <li><a href="Adminsuplier.html">Supplier</a></li>
+            <li><a href="AdminorderDetail.html">Order Detail</a></li>
+            <li><a href="Adminproducts.html">Products</a></li>
+          </ul>
+ 
+         <div class="search-container">
+             <form id="searchForm">
+               <input type="text" class="form-control" id="searchInput" placeholder="Search Sppliers" oninput="search()">
+               <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
+             </form>
+           </div>
+       </nav>
+<div class="container-fluid mt-5">
+    <h2 class="mb-4" id="title">Supplier Information Form</h2>
+    <form id="supplierForm">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" onclick="editSupplier()">Edit Supplier</button>
+
+            <div class="form-container" id="supplierFormContainer">
+                <div class="mb-3">
+                    <label for="supplierCode" class="form-label">Supplier Code</label>
+                    <input type="text" class="form-control" id="supplierCode" placeholder="Enter Supplier Code" required>
+                </div>
+                <div class="mb-3">
+                    <label for="supplierName" class="form-label">Supplier Name</label>
+                    <input type="text" class="form-control" id="supplierName" placeholder="Enter Supplier Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" required>
+                        <option value="INTERNATIONAL">International</option>
+                        <option value="LOCAL">Local</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine1" class="form-label">Address Line 01</label>
+                    <input type="text" class="form-control" id="addressLine1" placeholder="Enter Building No. or Name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine2" class="form-label">Address Line 02</label>
+                    <input type="text" class="form-control" id="addressLine2" placeholder="Enter Street or Lane" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine3" class="form-label">Address Line 03</label>
+                    <input type="text" class="form-control" id="addressLine3" placeholder="Enter City" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine4" class="form-label">Address Line 04</label>
+                    <input type="text" class="form-control" id="addressLine4" placeholder="Enter State" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine5" class="form-label">Address Line 05</label>
+                    <input type="text" class="form-control" id="addressLine5" placeholder="Enter Postal Code" required>
+                </div>
+                <div class="mb-3">
+                    <label for="addressLine6" class="form-label">Address Line 06 (Country)</label>
+                    <input type="text" class="form-control" id="addressLine6" placeholder="Enter Country" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contactNo1" class="form-label">Contact No. (Mobile)</label>
+                    <input type="tel" class="form-control" id="contactNo1" placeholder="Enter Mobile Number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contactNo2" class="form-label">Contact No. (Landline)</label>
+                    <input type="tel" class="form-control" id="contactNo2" placeholder="Enter Landline Number">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+                </div>
+        
+                <div class="btn-group d-flex justify-content-between">
+                    <button type="button" class="btn btn-primary" onclick="saveSupplier()">Save</button>
+                    <button type="button" class="btn btn-success" onclick="updateSupplier()">Update</button>
+                    <button type="button" class="btn btn-danger" onclick="deleteSupplier()">Delete</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    
+    <!-- Table to display supplier information -->
+    <div class="mt-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Supplier Code</th>
+                    <th>Supplier Name</th>
+                    <th>Category</th>
+                    <th>Address</th>
+                    <th>Contact No. (Mobile)</th>
+                    <th>Contact No. (Landline)</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody id="supplierTableBody" onclick="tableClick(event)"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Bootstrap JS and jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let suppliers = []; // Array to store supplier data (can be replaced with API data)
+
+    // Function to save supplier information
+    function saveSupplier() {
+       
+           const supplierCode= document.getElementById('supplierCode').value;
+           const  supplierName=document.getElementById('supplierName').value;
+           const category= document.getElementById('category').value;
+           const address1= document.getElementById('addressLine1').value;
+           const address2= document.getElementById('addressLine2').value;
+           const address3= document.getElementById('addressLine3').value;
+           const address4= document.getElementById('addressLine4').value;
+           const address5= document.getElementById('addressLine5').value;
+           const address6= document.getElementById('addressLine6').value;
+           const mobileNumber= document.getElementById('contactNo1').value;
+           const landlineNumber= document.getElementById('contactNo2').value;
+           const email= document.getElementById('email').value;
+           const address = `${address1}, ${address2}, ${address3}, ${address4}, ${address5}, ${address6}`;
+
+
+           const supplier={
+            supplierCode:supplierCode,
+            supplierName:supplierName,
+            category:category,
+            address: address,
+            mobileNumber:mobileNumber,
+            landlineNumber:landlineNumber,
+            email:email
+
+           }
+        
+
+        $.ajax({
+            url: 'http://localhost:8080/supplier/save',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(supplier),
+            headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+            success: function(response) {
+                alert('Supplier information saved successfully!');
+                updateSupplierTable();
+                document.getElementById('supplierForm').reset();
+                supplierNextId();
+                
+             
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('Failed to save supplier information. Please try again.');
+            }
+        });
+    }
+
+// Function to update supplier
+function updateSupplier() {
+
+    const supplierCode= document.getElementById('supplierCode').value;
+           const  supplierName=document.getElementById('supplierName').value;
+           const category= document.getElementById('category').value;
+           const address1= document.getElementById('addressLine1').value;
+           const address2= document.getElementById('addressLine2').value;
+           const address3= document.getElementById('addressLine3').value;
+           const address4= document.getElementById('addressLine4').value;
+           const address5= document.getElementById('addressLine5').value;
+           const address6= document.getElementById('addressLine6').value;
+           const mobileNumber= document.getElementById('contactNo1').value;
+           const landlineNumber= document.getElementById('contactNo2').value;
+           const email= document.getElementById('email').value;
+           const address = `${address1}, ${address2}, ${address3}, ${address4}, ${address5}, ${address6}`;
+
+
+           const supplier={
+            supplierCode:supplierCode,
+            supplierName:supplierName,
+            category:category,
+            address: address,
+            mobileNumber:mobileNumber,
+            landlineNumber:landlineNumber,
+            email:email
+
+           }
+    $.ajax({
+        url: 'http://localhost:8080/supplier/update',
+        type: 'PATCH',
+        contentType: 'application/json',
+        data: JSON.stringify(supplier),
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            alert('Supplier information updated successfully!');
+            updateSupplierTable();
+            document.getElementById('supplierForm').reset();
+            supplierNextId();
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to update supplier information. Please try again.');
+        }
+    });
+}
+
+
+    function deleteSupplier() {
+           const code = document.getElementById('supplierCode').value;
+   
+   if (confirm('Are you sure you want to delete this supplier?')) {
+       $.ajax({
+           url: `http://localhost:8080/supplier/${code}`, 
+           type: 'DELETE', 
+           headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+           success: function(response) {
+               alert('supplier information deleted successfully!');
+               updateSupplierTable();
+               document.getElementById('supplierForm').reset();
+               supplierNextId();
+               
+           },
+           error: function(xhr, status, error) {
+               console.error(error);
+               alert('Failed to delete supplier information. Please try again.');
+           }
+       });
+      }
+    }
+
+      function supplierNextId(){
+
+        $.ajax({
+           url: `http://localhost:8080/supplier/nextId`, 
+           type: 'GET', 
+           headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+           success: function(response) {
+               const nextId=response;
+               document.getElementById('supplierCode').value =nextId;
+           },
+          
+       });
+
+      }
+
+     supplierNextId();
+
+
+    function updateSupplierTable() {
+    const tableBody = document.getElementById('supplierTableBody');
+    tableBody.innerHTML = ''; 
+
+    $.ajax({
+        url: 'http://localhost:8080/supplier/getAllSupplier',
+        type: 'GET',
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            const suppliers = response;
+
+            suppliers.forEach(supplier => {
+                const row = `
+                    <tr>
+                        <td>${supplier.supplierCode}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.category}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.mobileNumber}</td>
+                        <td>${supplier.landlineNumber}</td>
+                        <td>${supplier.email}</td>
+                    </tr>
+                `;
+
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+            alert('Failed to retrieve supplier information. Please try again.');
+        }
+    });
+}
+
+updateSupplierTable();
+
+function tableClick(event) {
+    
+    if (event.target.tagName.toLowerCase() === 'td') {
+        
+        const clickedRow = event.target.parentNode;
+
+       
+        const supplierCode = clickedRow.cells[0].textContent;
+        const supplierName = clickedRow.cells[1].textContent;
+        const category = clickedRow.cells[2].textContent;
+        const address = clickedRow.cells[3].textContent;
+        const mobileNumber = clickedRow.cells[4].textContent;
+        const landlineNumber = clickedRow.cells[5].textContent;
+        const email = clickedRow.cells[6].textContent;
+
+        
+        document.getElementById('supplierCode').value = supplierCode;
+        document.getElementById('supplierName').value = supplierName;
+        document.getElementById('category').value = category;
+        
+       
+        const addressParts = address.split(', ');
+        if (addressParts.length >= 6) {
+            document.getElementById('addressLine1').value = addressParts[0];
+            document.getElementById('addressLine2').value = addressParts[1];
+            document.getElementById('addressLine3').value = addressParts[2];
+            document.getElementById('addressLine4').value = addressParts[3];
+            document.getElementById('addressLine5').value = addressParts[4];
+            document.getElementById('addressLine6').value = addressParts[5];
+        }
+        
+        document.getElementById('contactNo1').value = mobileNumber;
+        document.getElementById('contactNo2').value = landlineNumber;
+        document.getElementById('email').value = email;
+        document.getElementById('supplierFormContainer').style.display = 'block';
+      
+    }
+}
+
+
+function search() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('supplierTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/supplier/search/${name}`, 
+        type: 'GET', 
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            const suppliers = response;
+            console.log(suppliers);
+            
+            
+            tableBody.innerHTML = '';
+
+            suppliers.forEach(supplier => {
+                const row = `
+                    <tr>
+                        <td>${supplier.supplierCode}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.category}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.mobileNumber}</td>
+                        <td>${supplier.landlineNumber}</td>
+                        <td>${supplier.email}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          
+            updateSupplierTable();
+        }
+    });
+}
+
+function searchClick() {
+    const name = document.getElementById('searchInput').value;
+    const tableBody = document.getElementById('supplierTableBody');
+    
+    $.ajax({
+        url: `http://localhost:8080/supplier/search/${name}`, 
+        type: 'GET', 
+        headers: {
+          "Authorization": "Bearer " + localStorage.getItem("token")
+        },
+        success: function(response) {
+            const suppliers = response;
+            console.log(suppliers);
+            
+            
+            tableBody.innerHTML = '';
+
+            suppliers.forEach(supplier => {
+                const row = `
+                    <tr>
+                        <td>${supplier.supplierCode}</td>
+                        <td>${supplier.supplierName}</td>
+                        <td>${supplier.category}</td>
+                        <td>${supplier.address}</td>
+                        <td>${supplier.mobileNumber}</td>
+                        <td>${supplier.landlineNumber}</td>
+                        <td>${supplier.email}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+           
+          alert("Supplier not found!")
+            tableBody.innerHTML = '';
+        }
+    });
+}
+
+
+
+ 
+    
+
+    function editSupplier() {
+        toggleFormContainer(); // Show or hide the form container
+    }
+
+    function toggleFormContainer() {
+        const formContainer = document.getElementById('supplierFormContainer');
+        formContainer.style.display = formContainer.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
+
+</body>
+</html>

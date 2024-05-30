@@ -32,35 +32,45 @@
             margin-top: 20px;
         }
         nav {
-            background-color: #333;
-            padding: 10px;
-            position: fixed;
-            width: 100%;
-            margin-top: -58px;
-            z-index: 100;
-        }
-        nav ul {
-            list-style-type: none;
+    list-style-type: none;
             padding: 0;
-        }
-        nav ul li {
-            display: inline;
-            margin-right: 10px;
-        }
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            padding: 5px;
-        }
-        nav ul li a:hover {
-            background-color: #555;
-        }
-        .search-container {
-            display: flex;
-            justify-content: flex-end; 
-            margin-top: -35px;
-            margin-right: 18px; 
-        }
+            margin: 0;
+            overflow: hidden;
+            background-color: #4a90e2;
+            position: fixed;
+            top: 0;
+            width: 100%;
+
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+}
+
+nav ul li a:hover {
+  background-color: #555;
+}
+.search-container {
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: -7px;
+    margin-right: 18px; 
+}
         .search-container form {
             display: flex;
         }
@@ -87,16 +97,17 @@
             background-color: #0056b3;
         }
         #title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-            text-transform: uppercase;
-            padding: 5px;
-            text-align: center;
-            height: 53px;
-            margin-top: 10px;
-            margin-right: 40px;
-        }
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+        border-bottom: 2px solid #4a90e2;
+        padding-bottom: 5px;
+        margin-top: 58px; 
+        
+    }
         #title h2 {
             font-family: 'Arial', sans-serif; 
         }
@@ -116,7 +127,7 @@
     }
 
     .table th {
-        background-color: #040564;
+        background-color: #4a90e2;
       color: white;
       font-size: 12px;
       border: 1px solid #ddd;
@@ -127,27 +138,25 @@
 <body>
     <nav>
         <ul>
-          <li><a href="dashBoard.html">Home</a></li>
-          <li><a href="customer.html">Customer</a></li>
-          <li><a href="employee.html">Employee</a></li>
-          <li><a href="item.html">Item</a></li>
-          <li><a href="suplier.html">Supplier</a></li>
-          <li><a href="sale.html">Order</a></li>
-        </ul>
-
-        <div id="title">
-            <h2 class="mb-4" >Inventory Management</h2>
-           </div>
-
+            <li><a href="AdminDashboard.html" class="active">Home</a></li>
+            <li><a href="Admincustomer.html">Customer</a></li>
+            <li><a href="Adminemployee.html">Employee</a></li>
+            <li><a href="Adminitem.html">Item</a></li>
+            <li><a href="Adminsale.html">Order</a></li>
+            <li><a href="Adminsuplier.html">Supplier</a></li>
+            <li><a href="AdminorderDetail.html">Order Detail</a></li>
+            <li><a href="Adminproducts.html">Products</a></li>
+          </ul>
         <div class="search-container">
             <form id="searchForm">
-              <input type="text" class="form-control" id="searchInput" placeholder="Search Employees" oninput="search()">
-              <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
-            </form>
+                <input type="text" class="form-control" id="searchInput" placeholder="Search Employee" oninput="search()">
+                <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
+              </form>
           </div>
       </nav>
 
 <div class="container-fluid mt-5">
+    <h2 class="mb-4" id="title">Employee Information Form</h2>
    
     <form id="employeeForm" onsubmit="event.preventDefault(); saveEmployee();">
         <div class="mb-3">
@@ -307,6 +316,9 @@
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(employee),
+                headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
                 success: function(response) {
                     // document.getElementById('employeeForm').reset();
                     alert('Employee information saved successfully!');
@@ -329,6 +341,9 @@
     $.ajax({
         url: 'http://localhost:8080/employee/getAllEmployees',
         type: 'GET',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
         success: function(response) {
             const employees = response;
 
@@ -391,6 +406,9 @@ function formatDate(dateString) {
         type: 'PATCH', 
         contentType: 'application/json',
         data: JSON.stringify(employee),
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
         success: function(response) {
             alert('Employee information updated successfully!');
             updateEmployeeTable();
@@ -416,6 +434,9 @@ function formatDate(dateString) {
        $.ajax({
            url: `http://localhost:8080/employee/${code}`, 
            type: 'DELETE', 
+           headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
            success: function(response) {
                alert('Employee information deleted successfully!');
                updateEmployeeTable();
@@ -437,6 +458,9 @@ function formatDate(dateString) {
 $.ajax({
    url: `http://localhost:8080/employee/nextId`, 
    type: 'GET', 
+   headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
    success: function(response) {
        const nextId=response;
        document.getElementById('employeeCode').value =nextId;
@@ -515,6 +539,9 @@ function search() {
     $.ajax({
         url: `http://localhost:8080/employee/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
         success: function(response) {
             const employees = response;
             console.log(employees);
@@ -567,6 +594,9 @@ function searchClick() {
     $.ajax({
         url: `http://localhost:8080/employee/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+},
         success: function(response) {
             const employees = response;
             console.log(employees);

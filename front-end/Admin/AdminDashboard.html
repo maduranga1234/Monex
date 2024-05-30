@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5;
+}
+
+nav {
+    background-color: #4a90e2;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover {
+    background-color: #555;
+    
+}
+
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+          <li><a href="AdminDashboard.html" class="active">Home</a></li>
+          <li><a href="Admincustomer.html">Customer</a></li>
+          <li><a href="Adminemployee.html">Employee</a></li>
+          <li><a href="Adminitem.html">Item</a></li>
+          <li><a href="Adminsale.html">Order</a></li>
+          <li><a href="Adminsuplier.html">Supplier</a></li>
+          <li><a href="AdminorderDetail.html">Order Detail</a></li>
+          <li><a href="Adminproducts.html">Products</a></li>
+        </ul>
+      </nav>
+</body>
+</html>

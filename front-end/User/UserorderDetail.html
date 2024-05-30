@@ -18,6 +18,7 @@
             padding: 10px;
             text-align: center;
             position: relative;
+            margin: 0;
         }
 
         form {
@@ -110,7 +111,7 @@
 
         .search-container {
             position: absolute;
-            top: 50%;
+            top: 4%;
             right: 0px;
             transform: translateY(-50%);
         }
@@ -155,36 +156,82 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+            background-color: #040564;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        ul li {
+            float: left;
+        }
+
+        ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        ul li a:hover {
+            background-color: #111;
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
-    <h1>Order Details Form
+
+    <nav>
+  <ul>
+        <li><a href="UserdashBoard.html">Home</a></li>
+        <li><a href="Usercustomer.html">Customer</a></li>
+        <li><a href="Useremployee.html">Employee</a></li>
+        <li><a href="Useritem.html">Item</a></li>
+        <li><a href="Usersuplier.html">Supplier</a></li>
+        <li><a href="UserorderDetail.html">Order Detail</a></li>
+        <li><a href="Userproducts.html">Products</a></li>
+    </ul>
+    
+    <div class="main-content">
+        <h1>Order Details Form</h1>
         <div class="search-container">
             <form id="searchForm">
                 <input type="text" class="form-control" id="searchInput" placeholder="Search Order Id">
                 <button type="button" class="btn btn-primary" id="searchButton" onclick="searchClick()">Search</button>
             </form>
         </div>
-    </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Order Id</th>
-                <th>Item Code</th>
-                <th>Item Name</th>
-                <th>Size</th>
-                <th>Unit Price</th>
-                <th>Quantity</th>
-                <th>Delete</th>
-            </tr>
-        </thead>
-        <tbody id="tbody-orderDetailCart">
-        </tbody>
-    </table>
+
+    </nav>
+  
+        <table>
+            <thead>
+                <tr>
+                    <th>Order Id</th>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Size</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-orderDetailCart">
+            </tbody>
+        </table>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-       
         function getAllOrderDetail() {
             const tableBody = document.getElementById('tbody-orderDetailCart');
             tableBody.innerHTML = ''; 
@@ -192,6 +239,9 @@
             $.ajax({
                 url: 'http://localhost:8080/orderDetail/getAllRefundOrders',
                 type: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
                 success: function(response) {
                     console.log(response);
                     response.forEach(order => {
@@ -204,7 +254,6 @@
                                     <td>${detail.size ? detail.size : 'N/A'}</td>
                                     <td>${detail.unitPrice.toFixed(2)}</td>
                                     <td>${detail.itemQty}</td>
-                                    <td><button class="delete-button" onclick="refundOrder('${order.orderId}', ${index}, this)">Delete</button></td>
                                 </tr>
                             `;
                             tableBody.innerHTML += row;
