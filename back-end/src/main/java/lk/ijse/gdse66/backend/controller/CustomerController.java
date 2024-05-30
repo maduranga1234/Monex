@@ -62,4 +62,8 @@ public class CustomerController {
     }
 
 
+    @GetMapping("/sendWishes")
+    public List<String> sendWishes(){
+        return customerService.sendWishes();
+     }
 }

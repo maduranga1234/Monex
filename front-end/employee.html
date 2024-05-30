@@ -89,14 +89,16 @@
         #title {
             font-size: 24px;
             font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
+            color: #fff;
             text-transform: uppercase;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 5px;
-            margin-top: 50px; 
-            margin-left:48px;
+            padding: 5px;
+            text-align: center;
+            height: 53px;
+            margin-top: 10px;
+            margin-right: 40px;
+        }
+        #title h2 {
+            font-family: 'Arial', sans-serif; 
         }
         .table {
       width: 100%;
@@ -133,6 +135,10 @@
           <li><a href="sale.html">Order</a></li>
         </ul>
 
+        <div id="title">
+            <h2 class="mb-4" >Inventory Management</h2>
+           </div>
+
         <div class="search-container">
             <form id="searchForm">
               <input type="text" class="form-control" id="searchInput" placeholder="Search Employees" oninput="search()">
@@ -142,7 +148,7 @@
       </nav>
 
 <div class="container-fluid mt-5">
-    <h2 class="mb-4" id="title">Employee Information Form</h2>
+   
     <form id="employeeForm" onsubmit="event.preventDefault(); saveEmployee();">
         <div class="mb-3">
             <button type="button" class="btn btn-primary" onclick="editEmployee()">Edit Employee</button>

@@ -7,10 +7,14 @@ import lk.ijse.gdse66.backend.repositry.CustomerRepo;
 import lk.ijse.gdse66.backend.service.CustomerService;
 import lk.ijse.gdse66.backend.service.exception.DuplicateRecordException;
 import lk.ijse.gdse66.backend.service.exception.NotFoundException;
+import lk.ijse.gdse66.backend.service.util.EmailUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -79,6 +83,28 @@ public class CustomerServiceImpl implements CustomerService {
             throw new NotFoundException("Customer Code does not exists!");
         }
         return mapper.map(customerRepo.findByCode(code),CustomerDTO.class);
+    }
+
+    @Override
+    public List<String> sendWishes() {
+        List<String> custStringList = new ArrayList<>();
+
+        List<Customer> customersByBirthdayToday = customerRepo.findCustomersByBirthdayToday();
+        customersByBirthdayToday.forEach(customer -> {
+            try {
+                EmailUtil.sendEmail(customer.getEmail(), "Happy Birthday!", "Happy Birthday " + customer.getName() + "!");
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }finally {
+                String custCode = customer.getCode();
+                String name = customer.getName();
+                String together = custCode + " - " + name;
+                custStringList.add(together);
+
+            }
+        });
+        return custStringList;
+
     }
 
 

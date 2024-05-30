@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        .form-container {
+           .form-container {
               display: none; 
               padding: 10px;
               border: 1px solid #f5f2f2;
@@ -53,7 +53,7 @@
       }
   
       nav {
-          background-color: #333;
+          background-color: #040564;
           position: fixed;
           width: 100%;
           top: 0;
@@ -81,13 +81,14 @@
       }
   
       nav ul li a:hover {
-          background-color: #555;
+          color:black;
       }
   
       .search-container {
           display: flex;
           justify-content: flex-end; 
           margin-right: 18px; 
+          margin-bottom: 13px;
       }
   
       .search-container form {
@@ -120,13 +121,22 @@
       }
   
       #title {
-          font-size: 24px;
-          font-weight: bold;
-          color: #fff;
-          text-transform: uppercase;
-          padding: 5px;
+       width: 900px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    padding: 5px;
+    text-align: center;
+    height: 53px;
+    margin-top: 10px;
+    margin-right: 40px;
       }
-  
+      #title h2 {
+      
+        font-weight: bold;
+            font-family: 'Arial', sans-serif; 
+        }
       body {
           background-color: #ffffff;
           padding-top: 60px; /* to offset the fixed navbar */
@@ -144,8 +154,10 @@
           <li><a href="sale.html">Order</a></li>
         </ul>
 
-
-        <h2 class="mb-4" id="title">Inventory Management</h2>
+   <div id="title">
+    <h2 class="mb-4" >Inventory Management</h2>
+   </div>
+        
 
         <div class="search-container">
             <form id="searchForm">

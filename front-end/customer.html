@@ -308,6 +308,9 @@ nav ul li a:hover {
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(customer),
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             document.getElementById('customerForm').reset();
             alert('Customer information saved successfully!');
@@ -360,6 +363,9 @@ function updateCustomer() {
         type: 'PATCH', 
         contentType: 'application/json',
         data: JSON.stringify(updatedCustomer),
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             alert('Customer information updated successfully!');
             updateCustomerTable();
@@ -382,6 +388,9 @@ function deleteCustomer(customerCode) {
         $.ajax({
             url: `http://localhost:8080/customer/${code}`,
             type: 'DELETE', 
+            headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
             success: function(response) {
                 alert('Customer information deleted successfully!');
                 updateCustomerTable();
@@ -404,6 +413,9 @@ function search() {
     $.ajax({
         url: `http://localhost:8080/customer/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             const customers = response;
             console.log(customers);
@@ -446,6 +458,9 @@ function searchClick() {
     $.ajax({
         url: `http://localhost:8080/customer/search/${name}`, 
         type: 'GET', 
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
         success: function(response) {
             const customers = response;
             console.log(customers);
@@ -497,6 +512,9 @@ function customerNextId(){
 $.ajax({
    url: `http://localhost:8080/customer/nextId`, 
    type: 'GET', 
+   headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
    success: function(response) {
        const nextId=response;
        document.getElementById('customerCode').value =nextId;
@@ -517,6 +535,9 @@ function updateCustomerTable() {
         $.ajax({
             url: 'http://localhost:8080/customer/getAllCustomers',
             type: 'GET',
+            headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+        },
             success: function(response) {
                 
                 const customers = response; 

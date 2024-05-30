@@ -15,6 +15,8 @@ public interface CustomerService {
 
     CustomerDTO searchCustomerById(String code);
 
+    List<String> sendWishes();
+
 
 
 
