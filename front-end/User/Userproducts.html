@@ -7,69 +7,68 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-  nav {
-    list-style-type: none;
+        nav {
+            list-style-type: none;
             padding: 0;
             margin: 0;
             overflow: hidden;
-            background-color: #040564;
+            background-color: #007bff;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 100;
+        }
 
-}
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
 
-nav ul {
-  list-style-type: none;
-  padding: 0;
-}
+        nav ul li {
+            float: left;
+        }
 
-nav ul li {
-    float: left;
-}
-
-nav ul li a {
-    display: block;
+        nav ul li a {
+            display: block;
             color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
-}
+        }
 
-nav ul li a:hover {
-  background-color: #555;
-  color: white;
-  border: none;
-}
+        nav ul li a:hover {
+            background-color: #555;
+            color: white;
+            border: none;
+        }
 
-#inputForm{
-    margin-top: 100px;
-    z-index: 1;
-}
+        #inputForm {
+            margin-top: 100px;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <ul>
-          <li><a href="UserdashBoard.html">Home</a></li>
-          <li><a href="Usercustomer.html">Customer</a></li>
-          <li><a href="Useremployee.html">Employee</a></li>
-          <li><a href="Useritem.html">Item</a></li>
-          <li><a href="Usersuplier.html">Supplier</a></li>
-          <li><a href="UserorderDetail.html">Order Detail</a></li>
-          <li><a href="Userproducts.html">Prouducts</a></li>
+            <li><a href="UserdashBoard.html">Home</a></li>
+            <li><a href="Usercustomer.html">Customer</a></li>
+            <li><a href="Useremployee.html">Employee</a></li>
+            <li><a href="Useritem.html">Item</a></li>
+            <li><a href="Usersuplier.html">Supplier</a></li>
+            <li><a href="UserorderDetail.html">Order Detail</a></li>
+            <li><a href="Userproducts.html">Products</a></li>
         </ul>
-      </nav>
+    </nav>
     <div class="container mt-7" id="inputForm">
         <!-- Form Section -->
         <div class="card">
-            <div class="card-header" >
+            <div class="card-header">
                 <h3>Products</h3>
             </div>
-            <div class="card-body "> 
-                  <form onsubmit="betweenPrice(event)">
+            <div class="card-body">
+                <form onsubmit="betweenPrice(event)">
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="txtMinPrice">Min Price</label>
@@ -77,32 +76,23 @@ nav ul li a:hover {
                         </div>
                         <div class="form-group col-md-3">
                             <label for="txtMaxPrice">Max Price</label>
-                            <input type="number" class="form-control" id="txtMaxPrice" placeholder="EnterMax Price">
-
-                          
+                            <input type="number" class="form-control" id="txtMaxPrice" placeholder="Enter Max Price">
                         </div>
-
-                       
-                   
-                        
-
                         <div class="form-group col-md-6">
                             <label for="gender">Gender</label>
                             <select id="gender" name="gender" class="form-control">
                                 <option value="CreditCard">Male</option>
                                 <option value="DebitCard">Female</option>
-                               
                             </select>
                         </div>
-
-                        <div class="form-group col-md-3" >
-                            <button type="submit" class="btn btn-primary ">Search</button>
+                        <div class="form-group col-md-3">
+                            <button type="submit" class="btn btn-primary" id="Search">Search</button>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="input3">Search By Name</label>
-                            <input type="text" class="form-control" id="nameSearch" placeholder="Search By Name">
+                            <label for="nameSearch">Search By Name</label>
+                            <input type="text" class="form-control" id="nameSearch" oninput="searchName()" placeholder="Search By Name">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="paymentMethod2">Payment Method 2</label>
@@ -113,7 +103,6 @@ nav ul li a:hover {
                             </select>
                         </div>
                     </div>
-                    
                 </form>
             </div>
         </div>
@@ -128,10 +117,9 @@ nav ul li a:hover {
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Picture</picture></th>
+                            <th>Picture</th>
                             <th>Category</th>
                             <th>Price</th>
-                        
                         </tr>
                     </thead>
                     <tbody id="dataTableBody">
@@ -179,22 +167,48 @@ nav ul li a:hover {
             });
         }
 
+        function searchName() {
+            let name = $("#nameSearch").val(); // Use the correct ID for the input field
+            if (name.trim() === "") {
+                // Clear the table if the search input is empty
+                loadInventoryDataToGrid([]);
+                return;
+            }
+            $.ajax({
+                url: "http://localhost:8080/item/searchByName?name=" + name,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function (resp) {
+                    loadInventoryDataToGrid(resp);
+                },
+                error: function (xhr, status, error) {
+                    console.log("productSearchByName = " + error);
+                }
+            });
+        }
+
         function loadInventoryDataToGrid(data) {
             const tbody = document.getElementById('dataTableBody');
             tbody.innerHTML = ''; // Clear existing data
 
+            if (data.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="4" class="text-center">No data found</td>';
+                tbody.appendChild(row);
+                return;
+            }
+
             data.forEach(item => {
                 const row = document.createElement('tr');
-                
-                // Assuming your data item has these properties, adjust accordingly
                 row.innerHTML = `
                     <td>${item.itemDesc}</td>
                     <td><img src="${item.itemPicture}" style="max-width: 100px; max-height: 100px;" /></td>
                     <td>${item.category}</td>
                     <td>${item.unitPriceSale}</td>
-                    
                 `;
-
                 tbody.appendChild(row);
             });
         }

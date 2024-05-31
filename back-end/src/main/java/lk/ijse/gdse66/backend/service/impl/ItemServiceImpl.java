@@ -116,4 +116,9 @@ public class ItemServiceImpl implements ItemService {
         return itemRepo.findByCategoryContaining(gender).stream().map(item -> mapper.map(item,ItemDTO.class)).toList();
 
     }
+
+    @Override
+    public List<ItemDTO> searchItemByName(String name) {
+        return itemRepo.findByItemDesc(name).stream().map(item -> mapper.map(item,ItemDTO.class)).toList();
+    }
 }

@@ -14,6 +14,9 @@ import java.util.List;
 
 public interface ItemRepo extends JpaRepository<Item,String> {
 
+
+    List<Item> findByItemDesc(String name);
+
     Item findTopByOrderByItemCodeDesc();
     List<Item> findByItemDescIsStartingWith(String name);
     Item findByItemCode(String id);
@@ -48,4 +51,7 @@ public interface ItemRepo extends JpaRepository<Item,String> {
             "FROM Item i " +
             "WHERE i.item_code = :itemCode", nativeQuery = true)
     Integer findQtyByItemCodeAndSize(String itemCode, String size);
+
+
+
 }

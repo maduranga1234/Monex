@@ -68,7 +68,10 @@ public class ItemController {
     }
 
 
-
+    @GetMapping("/searchByName")
+    public List<ItemDTO> searchByName(@RequestParam("name")String name){
+        return itemService.searchItemByName(name);
+    }
 
     @GetMapping("/getAllItemsByPrice/{minPrice}/{maxPrice}")
     public List<ItemDTO> getAllItemsByPrice(@PathVariable double minPrice,@PathVariable double maxPrice){
