@@ -80,9 +80,9 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="gender">Gender</label>
-                            <select id="gender" name="gender" class="form-control">
-                                <option value="CreditCard">Male</option>
-                                <option value="DebitCard">Female</option>
+                            <select id="gender" name="gender" class="form-control" onchange="change()">
+                                <option value="Mens">Male</option>
+                                <option value="Women">Female</option>
                             </select>
                         </div>
                         <div class="form-group col-md-3">
@@ -95,11 +95,10 @@
                             <input type="text" class="form-control" id="nameSearch" oninput="searchName()" placeholder="Search By Name">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="paymentMethod2">Payment Method 2</label>
-                            <select id="paymentMethod2" name="paymentMethod2" class="form-control">
-                                <option value="CreditCard">Credit card</option>
-                                <option value="DebitCard">Debit card</option>
-                                <option value="Cash">Cash</option>
+                            <label for="occasion">Payment Method 2</label>
+                            <select id="occasion" name="occasion" onchange="changeOccasion()" class="form-control">
+                                <option value="Formal">Formal</option>
+                                <option value="Casual">Casual</option>
                             </select>
                         </div>
                     </div>
@@ -186,6 +185,52 @@
                 },
                 error: function (xhr, status, error) {
                     console.log("productSearchByName = " + error);
+                }
+            });
+        }
+
+        function change() {
+            let gender = $("#gender").val(); // Get the value of the selected gender
+
+            $.ajax({
+                url: "http://localhost:8080/item/getAllItemsByCategoryGender?gender=" + gender,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function (resp) {
+                    if (resp.length === 0) {
+                        alert("Items not found!");
+                        return;
+                    }
+                    loadInventoryDataToGrid(resp);
+                },
+                error: function (xhr, status, error) {
+                    console.log("productSearchByGender = " + error);
+                }
+            });
+        }
+
+        function changeOccasion() {
+            let occasion = $("#occasion").val(); // Get the value of the selected occasion
+
+            $.ajax({
+                url: "http://localhost:8080/item/getAllItemsByCategoryOccasion?occasion=" + occasion,
+                method: "GET",
+                dataType: "json",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+                success: function (resp) {
+                    if (resp.length === 0) {
+                        alert("Items not found!");
+                        return;
+                    }
+                    loadInventoryDataToGrid(resp);
+                },
+                error: function (xhr, status, error) {
+                    console.log("productSearchByOccasion = " + error);
                 }
             });
         }
