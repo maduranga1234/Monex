@@ -12,7 +12,7 @@
             padding: 0;
             margin: 0;
             overflow: hidden;
-            background-color: #007bff;
+            background-color:  #043b75;;
             position: fixed;
             top: 0;
             width: 100%;
@@ -202,6 +202,8 @@
                 success: function (resp) {
                     if (resp.length === 0) {
                         alert("Items not found!");
+                        const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
                         return;
                     }
                     loadInventoryDataToGrid(resp);
@@ -225,6 +227,8 @@
                 success: function (resp) {
                     if (resp.length === 0) {
                         alert("Items not found!");
+                        const tbody = document.getElementById('dataTableBody');
+                      tbody.innerHTML = '';
                         return;
                     }
                     loadInventoryDataToGrid(resp);

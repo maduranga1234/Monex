@@ -12,7 +12,7 @@
             padding: 0;
             margin: 0;
             overflow: hidden;
-            background-color: #007bff;
+            background-color:  #043b75;
             position: fixed;
             top: 0;
             width: 100%;
@@ -52,13 +52,14 @@
 
     <nav>
         <ul>
-            <li><a href="UserdashBoard.html">Home</a></li>
-            <li><a href="Usercustomer.html">Customer</a></li>
-            <li><a href="Useremployee.html">Employee</a></li>
-            <li><a href="Useritem.html">Item</a></li>
-            <li><a href="Usersuplier.html">Supplier</a></li>
-            <li><a href="UserorderDetail.html">Order Detail</a></li>
-            <li><a href="Userproducts.html">Products</a></li>
+            <li><a href="AdminDashboard.html" class="active">Home</a></li>
+            <li><a href="Admincustomer.html">Customer</a></li>
+            <li><a href="Adminemployee.html">Employee</a></li>
+            <li><a href="Adminitem.html">Item</a></li>
+            <li><a href="Adminsale.html">Order</a></li>
+            <li><a href="Adminsuplier.html">Supplier</a></li>
+            <li><a href="AdminorderDetail.html">Order Detail</a></li>
+            <li><a href="Adminproducts.html">Products</a></li>
         </ul>
     </nav>
     <div class="container mt-7" id="inputForm">
@@ -202,6 +203,8 @@
                 success: function (resp) {
                     if (resp.length === 0) {
                         alert("Items not found!");
+                        const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = '';
                         return;
                     }
                     loadInventoryDataToGrid(resp);
@@ -225,6 +228,8 @@
                 success: function (resp) {
                     if (resp.length === 0) {
                         alert("Items not found!");
+                        const tbody = document.getElementById('dataTableBody');
+                      tbody.innerHTML = '';
                         return;
                     }
                     loadInventoryDataToGrid(resp);

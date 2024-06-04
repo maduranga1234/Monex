@@ -20,6 +20,7 @@ import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,9 +57,37 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public List<OrderDTO> getAllRefundOrders() {
 
 
+//        List<OrderDTO> list = orderRepo.getAllRefundOrders().stream().map(order -> mapper.map(order, OrderDTO.class)).toList();
 
-        return orderRepo.getAllRefundOrders().stream().map(order -> mapper.map(order,OrderDTO.class)).toList();
+        List<Order> allRefundOrders = orderRepo.getAllRefundOrders();
+        List<OrderDTO> orderDTOList = allRefundOrders.stream().map(order -> {
+            OrderDTO orderDTO = mapper.map(order, OrderDTO.class);
 
+            List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
+            for (OrderDetail orderDetail : order.getOrderDetailDTOLis()) {
+                String size = orderDetail.getOrderDetailPK().getSize();
+
+                OrderDetailDTO orderDetailDTO = new OrderDetailDTO();
+                orderDetailDTO.setOrder_id(order.getOrderId());
+                orderDetailDTO.setSize(size);
+                orderDetailDTO.setItem_code(orderDetail.getItem_code().getItemCode());
+                orderDetailDTO.setItemName(orderDetail.getItemName());
+                orderDetailDTO.setUnitPrice(orderDetail.getUnitPrice());
+                orderDetailDTO.setItemQty(orderDetail.getItemQty());
+
+                orderDetailDTOList.add(orderDetailDTO);
+            }
+
+            orderDTO.setOrderDetailDTOList(orderDetailDTOList);
+            return orderDTO;
+
+        }).collect(Collectors.toList());
+
+
+//        System.out.println(list);
+
+        System.out.println("@@@@@@@@@@@@@@@@"+orderDTOList);
+        return orderDTOList;
     }
 
     @Override

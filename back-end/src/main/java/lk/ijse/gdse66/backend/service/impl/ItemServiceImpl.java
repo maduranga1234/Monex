@@ -62,7 +62,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public String generateNextId() {
-        String prefix = "S";
+        String prefix = "I";
         String id = "";
 
         Item lastItem = itemRepo.findTopByOrderByItemCodeDesc();

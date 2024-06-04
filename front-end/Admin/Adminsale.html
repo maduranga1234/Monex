@@ -10,7 +10,7 @@
     }
 
     h1 {
-            background-color:  #007bff;
+            background-color:  #043b75;;
             color: white;
             padding: 10px;
             text-align: center;
@@ -56,12 +56,12 @@
     }
 
     th {
-      background-color:  #007bff;
+      background-color:  #043b75;;
       color: white;
     }
 
     button[type="submit"], button[type="button"] {
-      background-color: #007bff;
+      background-color: #043b75;
       color: white;
       padding: 10px;
       border: none;
@@ -111,7 +111,7 @@
             padding: 0;
             margin: 0;
             overflow: hidden;
-            background-color:  #007bff;
+            background-color:  #043b75;
             position: fixed;
             top: 0;
             width: 100%;
@@ -156,7 +156,7 @@
   <form>
     <div id="one">
       <label for="orderId">Order ID:</label>
-      <input type="text" id="orderId" name="orderId"><br>
+      <input disabled type="text" id="orderId" name="orderId"><br>
 
       <label for="orderDate">Order Date:</label>
       <input type="datetime-local" id="orderDate" name="orderDate"><br>
@@ -458,6 +458,7 @@
           },
             success: function(response) {
                 alert("Order saved successfully!");
+                $("form")[0].reset();
             },
             error: function(xhr, status, error) {
                 console.error(error);
@@ -466,6 +467,25 @@
         });
     });
 });
+
+
+function loadNextOrderId() {
+    $.ajax({
+        url:"http://localhost:8080/order/nextOrderId",
+        method:"GET",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          },
+        success:function (resp) {
+            $("#orderId").val(resp);
+        },
+        error:function (xhr, status, error) {
+            console.log("loadNextOrderId() ="+error)
+        }
+    })
+}
+
+loadNextOrderId();
 
   </script>
 </body>

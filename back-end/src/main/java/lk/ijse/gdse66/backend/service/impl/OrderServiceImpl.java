@@ -127,6 +127,26 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public String generateNextOrderId() {
-        return null;
+        String prefix = "ORD-";
+        String id = "";
+
+        Order lastOrder = orderRepo.findTopByOrderByOrderIdDesc();
+        int nextNumericPart;
+        if (lastOrder != null) {
+            String lastCode = lastOrder.getOrderId();
+            String numericPartString = lastCode.substring(prefix.length());
+            try {
+                int numericPart = Integer.parseInt(numericPartString);
+                nextNumericPart = numericPart + 1;
+            } catch (NumberFormatException e) {
+                nextNumericPart = 1;
+            }
+        } else {
+            nextNumericPart = 1;
+        }
+        id = prefix + String.format("%04d", nextNumericPart);
+
+        System.out.println("Order next id ="+id);
+        return id;
     }
 }

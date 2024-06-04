@@ -27,7 +27,7 @@
         }
 
         .login-left {
-            background-color: #007bff;
+            background-color: #043b75;
             color: white;
             padding: 40px;
             border-radius: 8px 0 0 8px;
@@ -131,7 +131,7 @@
             text-decoration: underline;
         }
 
-        #loginMessage {
+        #signupMessage {
             text-align: center;
             color: red;
             margin-top: 15px;
@@ -160,7 +160,7 @@
             <h4>Design & Develop by : ©Maduranga sadaruwan 2024</h4>
         </div>
         <div class="login-right">
-            <h2>Sing Up!</h2>
+            <h2>Sign Up!</h2>
             <p>Sign Up to continue to Monex Community.</p>
             <form id="signupForm">
               <label for="email">Email:</label>
@@ -180,7 +180,7 @@
             <div class="form-footer">
                 <a href="login.html">Do you already have an account? Sign in.</a>
             </div>
-            <p id="loginMessage"></p>
+            <p id="signupMessage"></p>
         </div>
     </div>
 
@@ -196,6 +196,15 @@
           const password = document.getElementById('password').value;
           const role = document.getElementById('role').value;
           const signupMessage = document.getElementById('signupMessage');
+          const inputs = document.querySelectorAll('input, select');
+          
+          inputs.forEach(input => {
+              if (!input.value) {
+                  input.style.borderColor = 'red';
+              } else {
+                  input.style.borderColor = '#ccc';
+              }
+          });
 
           if (!validateEmail(email)) {
               signupMessage.textContent = 'Please enter a valid email address.';

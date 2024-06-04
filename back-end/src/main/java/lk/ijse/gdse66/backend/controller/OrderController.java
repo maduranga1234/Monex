@@ -26,6 +26,11 @@ public class OrderController {
 
         salesService.placeOrder(orderDTO);
     }
+
+    @GetMapping("/nextOrderId")
+    public String nextOrderId(){
+        return salesService.generateNextOrderId();
+    }
 }
 
 

@@ -4,72 +4,314 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
         body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f2f5;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
 
-nav {
-    background-color:  #007bff;
-    padding: 10px 0;
-}
+        nav {
+            background-color: #043b75;
+        }
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+        }
 
-nav ul li {
-    margin: 0 15px;
-}
+        nav ul li {
+            margin: 0 15px;
+        }
 
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    display: block;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-nav ul li a:hover {
-    background-color: #555;
-    
-}
+        nav ul li a:hover {
+            background-color: #ffffff;
+            color: #043b75;
+        }
 
-@media (max-width: 768px) {
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
 
-    nav ul li {
-        margin: 10px 0;
-    }
-}
+            nav ul li {
+                margin: 10px 0;
+            }
+        }
 
+        .card {
+            border-radius: 20px;
+        }
+
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: bold;
+            background-color: #043b75;
+            color: #fff;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #043b75;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .img-fluid {
+            max-width: 300px;
+            height: auto;
+        }
+
+        .container-fluid {
+            padding-top: 20px;
+        }
+
+        .text-white {
+            color: #fff !important;
+        }
+
+        .bg-primary {
+            background-color: #ffffff !important;
+        }
+
+        .bg-success {
+            background-color: #ffffff !important;
+        }
+
+        .bg-info {
+            background-color:#ffffff !important;
+        }
+
+        .rounded-4 {
+            border-radius: 20px;
+        }
+
+        .mt-5 {
+            margin-top: 3rem !important;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem !important;
+        }
+
+        .pt-2 {
+            padding-top: 0.5rem !important;
+        }
+
+        .gap-3 {
+            gap: 1rem;
+        }
+
+        .btn-primary {
+            background-color: #043b75;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #043b75;
+        }
+
+        .form-control {
+            border-radius: 10px;
+        }
+
+        .row {
+            justify-content: center;
+        }
+
+        #mostSolidItemByDate{
+               width: 876px;
+    height: 180px;
+        }
+        
     </style>
 </head>
 <body>
+
+   
+
     <nav>
         <ul>
-          <li><a href="AdminDashboard.html" class="active">Home</a></li>
-          <li><a href="Admincustomer.html">Customer</a></li>
-          <li><a href="Adminemployee.html">Employee</a></li>
-          <li><a href="Adminitem.html">Item</a></li>
-          <li><a href="Adminsale.html">Order</a></li>
-          <li><a href="Adminsuplier.html">Supplier</a></li>
-          <li><a href="AdminorderDetail.html">Order Detail</a></li>
-          <li><a href="Adminproducts.html">Products</a></li>
+            <li><a href="AdminDashboard.html" class="nav-link active">Home</a></li>
+            <li><a href="Admincustomer.html" class="nav-link">Customer</a></li>
+            <li><a href="Adminemployee.html" class="nav-link">Employee</a></li>
+            <li><a href="Adminitem.html" class="nav-link">Item</a></li>
+            <li><a href="Adminsale.html" class="nav-link">Order</a></li>
+            <li><a href="Adminsuplier.html" class="nav-link">Supplier</a></li>
+            <li><a href="AdminorderDetail.html" class="nav-link">Order Detail</a></li>
+            <li><a href="Adminproducts.html" class="nav-link">Products</a></li>
         </ul>
-      </nav>
+    </nav>
+
+    <section id="admin-home-page" class="container-fluid py-4 mt-5 mb-3">
+        <div id="home-label-content" class="row">
+            <!-- Today's Orders Count -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-header">Today's Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="ordersCount">0</h5>
+                        <p class="card-text">Number of orders placed today.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Price of Today's Orders -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-success">
+                    <div class="card-header">Total Sales</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="totalSales">Rs.0.00</h5>
+                        <p class="card-text">Total price of orders placed today.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Gold Customers -->
+            <div class="col-md-4 mb-3">
+                <div class="card text-white bg-info">
+                    <div class="card-header">Gold Customers</div>
+                    <div class="card-body">
+                        <h5 class="card-title" id="goldCustomersCount">0</h5>
+                        <p class="card-text">Number of customers with Gold loyalty level.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="home-selected-date-content" class="row w-100 text-center">
+            <!-- Date Picker -->
+            <div class="col-md-4 mb-3">
+                
+            </div>
+        </div>
+
+        <div id="home-selected-date-content" class="row w-100 text-center">
+            <!-- Data for Selected Date -->
+            <div class="row w-100 justify-content-center">
+                <!-- Total Sales -->
+              
+                
+                <!-- Total Profit -->
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-header">Total Profit</div>
+                        <div class="card-body">
+                            <h5 class="card-title" id="selectedTotalProfit">Rs.0.00</h5>
+                            <p class="card-text">Total profit of the selected date.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Most Sold Item -->
+            <!-- Most Sold Item -->
+<div id="mostSolidItemByDate" class="row justify-content-center">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-header">Most Sold Item</div>
+            <div class="card-body text-center">
+                <img id="selectedMostSoldItemPicture" src="" alt="Most Sold Item" class="img-fluid mb-3" style="width: 200px; height: 200px;" />
+                <h5 class="card-title" id="selectedMostSoldItem">Item Name</h5>
+                <p class="card-text">Item name.</p>
+                <h5 class="card-title" id="selectedMostSoldItemQty">0</h5>
+                <p class="card-text">Sold item quantity.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function adminPanelInitialize() {
+            loadDataToTodayUpdates();
+
+            let date = new Date();
+            let formattedDate = date.toISOString().split('T')[0];
+            loadDataToSelectedDate(formattedDate);
+        }
+
+        const token = localStorage.getItem("token");
+
+        function loadDataToTodayUpdates() {
+            let date = new Date();
+            let formattedDate = date.toISOString().split('T')[0]; // Formats date as "yyyy-MM-dd"
+
+            $.ajax({
+                url: "http://localhost:8080/dashboard/getSummeryForToday?date=" + formattedDate,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token") // Assuming token is stored in localStorage
+                },
+                success: function (resp) {
+                    console.log(resp)
+                    $("#ordersCount").text(resp.ordersCount);
+                    $("#totalSales").text(`Rs.${resp.totalPrice.toFixed(2)}`);
+                    $("#goldCustomersCount").text(resp.goldCusCount);
+                },
+                error: function (xhr, textStatus, error) {
+                    console.error("Error fetching today's orders: ", error);
+                }
+            });
+        }
+
+     
+
+        function loadDataToSelectedDate(selectedDate) {
+            $.ajax({
+                url: "http://localhost:8080/dashboard/getSummeryForSelectedDate?date=" + selectedDate,
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token") // Assuming token is stored in localStorage
+                },
+                success: function (data) {
+                    console.log(data)
+                    if (data.totalPrice === null) {
+                        data.totalPrice = 0.00;
+                    }
+                    if (data.mostSoldItemName === null) {
+                        swal("Error", "Cannot find sales for this date!", "error");
+                        return
+                    }
+                    let profit = data.totalPrice * 20 / 100;
+
+                    $("#selectedTotalSales").text(`Rs.${data.totalPrice.toFixed(2)}`);
+                    $("#selectedTotalProfit").text(`Rs.${profit.toFixed(2)}`);
+                    $("#selectedMostSoldItem").text(data.mostSoldItemName);
+                    $('#selectedMostSoldItemPicture').attr('src', data.mostSoldItemPicture);
+                    $('#selectedMostSoldItemQty').text(data.mostSoldItemQty);
+                },
+                error: function (xhr, textStatus, error) {
+                    console.error("Error fetching selected date's orders: ", error);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            adminPanelInitialize();
+        });
+    </script>
 </body>
 </html>

@@ -69,16 +69,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .accessRole(signUpRequest.getAccessRole())
                 .build();
         savedUser = userRepo.save(mapper.map(userDTO, User.class));
-//        if(userRepo.existsById(signUpRequest.getEmail())){
-//            throw new DuplicateRecordException("User with email " + signUpRequest.getEmail() + " already exists");
-//        }else{
-//            UserDTO userDTO = UserDTO.builder()
-//                    .email(signUpRequest.getEmail())
-//                    .password(passwordEncoder.encode(signUpRequest.getPassword()))
-//                    .accessRole(signUpRequest.getAccessRole())
-//                    .build();
-//            savedUser = userRepo.save(mapper.map(userDTO, User.class));
-//        }
+
         String generatedToken = jwtService.generateToken( savedUser);
         return JWTAuthResponse.builder().token(generatedToken).build();
 }
